@@ -48,8 +48,8 @@ Actionable developer stories derived from [IMPLEMENTATION_ROADMAP.md](../IMPLEME
 
 | ID | Story | Release | Effort | Status |
 |----|-------|---------|--------|--------|
-| [P3.1](phase-3/P3.1-game-session.md) | GameSession state container | v0.1 | S | ⬜ |
-| [P3.2](phase-3/P3.2-place-remove-block-actions.md) | Place, remove & block actions | v0.1 | S | ⬜ |
+| [P3.1](phase-3/P3.1-game-session.md) | GameSession state container | v0.1 | S | ✅ |
+| [P3.2](phase-3/P3.2-place-remove-block-actions.md) | Place, remove & block actions | v0.1 | S | ✅ |
 | [P3.3](phase-3/P3.3-undo.md) | Undo | v0.1 | XS | ⬜ |
 | [P3.4](phase-3/P3.4-redo.md) | Redo | v0.1 | XS | ⬜ |
 | [P3.5](phase-3/P3.5-reset.md) | Reset | v0.1 | XS | ⬜ |

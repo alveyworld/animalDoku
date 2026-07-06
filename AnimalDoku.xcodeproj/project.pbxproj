@@ -38,6 +38,8 @@
 		H80000000000000000000002 /* ValidatorAdjacencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = H80000000000000000000001 /* ValidatorAdjacencyTests.swift */; };
 		I90000000000000000000002 /* ValidatorCompletionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = I90000000000000000000001 /* ValidatorCompletionTests.swift */; };
 		J00000000000000000000002 /* ValidatorValidateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = J00000000000000000000001 /* ValidatorValidateTests.swift */; };
+		K10000000000000000000002 /* GameSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = K10000000000000000000001 /* GameSession.swift */; };
+		K10000000000000000000004 /* GameSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = K10000000000000000000003 /* GameSessionTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +94,8 @@
 		H80000000000000000000001 /* ValidatorAdjacencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatorAdjacencyTests.swift; sourceTree = "<group>"; };
 		I90000000000000000000001 /* ValidatorCompletionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatorCompletionTests.swift; sourceTree = "<group>"; };
 		J00000000000000000000001 /* ValidatorValidateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatorValidateTests.swift; sourceTree = "<group>"; };
+		K10000000000000000000001 /* GameSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSession.swift; sourceTree = "<group>"; };
+		K10000000000000000000003 /* GameSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSessionTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +189,7 @@
 			children = (
 				G70000000000000000000001 /* ValidationResult.swift */,
 				G70000000000000000000003 /* Validator.swift */,
+				K10000000000000000000001 /* GameSession.swift */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -274,6 +279,7 @@
 				H80000000000000000000001 /* ValidatorAdjacencyTests.swift */,
 				I90000000000000000000001 /* ValidatorCompletionTests.swift */,
 				J00000000000000000000001 /* ValidatorValidateTests.swift */,
+				K10000000000000000000003 /* GameSessionTests.swift */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -443,6 +449,7 @@
 				F80000000000000000000002 /* PuzzleLoader.swift in Sources */,
 				G70000000000000000000002 /* ValidationResult.swift in Sources */,
 				G70000000000000000000004 /* Validator.swift in Sources */,
+				K10000000000000000000002 /* GameSession.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,6 +467,7 @@
 				H80000000000000000000002 /* ValidatorAdjacencyTests.swift in Sources */,
 				I90000000000000000000002 /* ValidatorCompletionTests.swift in Sources */,
 				J00000000000000000000002 /* ValidatorValidateTests.swift in Sources */,
+				K10000000000000000000004 /* GameSessionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
