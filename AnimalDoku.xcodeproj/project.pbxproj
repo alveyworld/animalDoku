@@ -40,6 +40,9 @@
 		J00000000000000000000002 /* ValidatorValidateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = J00000000000000000000001 /* ValidatorValidateTests.swift */; };
 		K10000000000000000000002 /* GameSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = K10000000000000000000001 /* GameSession.swift */; };
 		K10000000000000000000004 /* GameSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = K10000000000000000000003 /* GameSessionTests.swift */; };
+		L20000000000000000000002 /* HintService.swift in Sources */ = {isa = PBXBuildFile; fileRef = L20000000000000000000001 /* HintService.swift */; };
+		L20000000000000000000004 /* HintServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = L20000000000000000000003 /* HintServiceTests.swift */; };
+		M30000000000000000000002 /* TestPuzzleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = M30000000000000000000001 /* TestPuzzleFactory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +99,9 @@
 		J00000000000000000000001 /* ValidatorValidateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatorValidateTests.swift; sourceTree = "<group>"; };
 		K10000000000000000000001 /* GameSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSession.swift; sourceTree = "<group>"; };
 		K10000000000000000000003 /* GameSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSessionTests.swift; sourceTree = "<group>"; };
+		L20000000000000000000001 /* HintService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintService.swift; sourceTree = "<group>"; };
+		L20000000000000000000003 /* HintServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintServiceTests.swift; sourceTree = "<group>"; };
+		M30000000000000000000001 /* TestPuzzleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPuzzleFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +196,7 @@
 				G70000000000000000000001 /* ValidationResult.swift */,
 				G70000000000000000000003 /* Validator.swift */,
 				K10000000000000000000001 /* GameSession.swift */,
+				L20000000000000000000001 /* HintService.swift */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -233,10 +240,19 @@
 				D40000000000000000000009 /* DesignSystemTests.swift */,
 				E50000000000000000000003 /* ThemeAssetTests.swift */,
 				F80000000000000000000005 /* PuzzleLoaderTests.swift */,
+				B2000000000000000000000F /* Fixtures */,
 				B2000000000000000000000D /* Engine */,
 				B2000000000000000000000E /* Models */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		B2000000000000000000000F /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				M30000000000000000000001 /* TestPuzzleFactory.swift */,
+			);
+			path = Fixtures;
 			sourceTree = "<group>";
 		};
 		B20000000000000000000008 /* DesignSystem */ = {
@@ -280,6 +296,7 @@
 				I90000000000000000000001 /* ValidatorCompletionTests.swift */,
 				J00000000000000000000001 /* ValidatorValidateTests.swift */,
 				K10000000000000000000003 /* GameSessionTests.swift */,
+				L20000000000000000000003 /* HintServiceTests.swift */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -450,6 +467,7 @@
 				G70000000000000000000002 /* ValidationResult.swift in Sources */,
 				G70000000000000000000004 /* Validator.swift in Sources */,
 				K10000000000000000000002 /* GameSession.swift in Sources */,
+				L20000000000000000000002 /* HintService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,6 +486,8 @@
 				I90000000000000000000002 /* ValidatorCompletionTests.swift in Sources */,
 				J00000000000000000000002 /* ValidatorValidateTests.swift in Sources */,
 				K10000000000000000000004 /* GameSessionTests.swift in Sources */,
+				L20000000000000000000004 /* HintServiceTests.swift in Sources */,
+				M30000000000000000000002 /* TestPuzzleFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

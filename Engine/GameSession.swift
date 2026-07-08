@@ -18,8 +18,6 @@ extension Validator: Validating {}
 /// MVP puzzles start with an all-empty board (`initialPlacements` is always `[]`).
 /// See [Formal Rules §Pre-filled Givens](AnimalDoku_Formal_Rules_and_Data_Model.md#pre-filled-givens).
 final class GameSession {
-    static let maxHints = 3
-
     let puzzle: Puzzle
     private(set) var cells: [Cell]
     private(set) var undoStack: [GameAction] = []
@@ -30,12 +28,15 @@ final class GameSession {
     private(set) var validationResult: ValidationResult
 
     var completed: Bool { validationResult.isComplete }
+    var hintsRemaining: Int { HintService.maxHints - hintsUsed }
 
     private let validator: Validating
+    private let hintService: HintService
 
-    init(puzzle: Puzzle, validator: Validating = Validator()) {
+    init(puzzle: Puzzle, validator: Validating = Validator(), hintService: HintService = HintService()) {
         self.puzzle = puzzle
         self.validator = validator
+        self.hintService = hintService
         self.cells = Self.makeEmptyCells(for: puzzle)
         self.validationResult = validator.validate(cells: cells, puzzle: puzzle)
     }
@@ -82,6 +83,76 @@ final class GameSession {
     /// Applies a forward action: mutates the board, records history, and revalidates.
     /// Shared with redo (P3.4); inverse used by undo (P3.3).
     func apply(_ action: GameAction) {
+        performForward(action, clearRedoStack: true)
+    }
+
+    // MARK: - Undo (P3.3)
+
+    /// Reversal semantics: place/remove/toggleBlocked restore `previousState`; hint restores
+    /// `previousState` and decrements `hintsUsed`.
+    var canUndo: Bool { !undoStack.isEmpty }
+
+    func undo() {
+        guard let action = undoStack.popLast() else { return }
+        applyInverse(of: action)
+        redoStack.append(action)
+        revalidate()
+    }
+
+    // MARK: - Redo (P3.4)
+
+    /// Reapplies the last undone action. Pops redo first so `performForward` does not wipe
+    /// remaining redo entries (which a full `apply(_:)` would clear).
+    var canRedo: Bool { !redoStack.isEmpty }
+
+    func redo() {
+        guard let action = redoStack.popLast() else { return }
+        performForward(action, clearRedoStack: false)
+    }
+
+    // MARK: - Reset (P3.5)
+
+    /// Restores the initial empty board and clears session progress. Does not change `puzzle`,
+    /// `inputMode`, or app-level settings (theme, sound). See Formal Rules §Undo / Redo / Reset.
+    func reset() {
+        cells = Self.makeEmptyCells(for: puzzle)
+        undoStack.removeAll()
+        redoStack.removeAll()
+        hintsUsed = 0
+        elapsedSeconds = 0
+        revalidate()
+    }
+
+    // MARK: - Hints (P3.6)
+
+    func canHint(selected: Position? = nil) -> Bool {
+        hintService.canHint(
+            hintsUsed: hintsUsed,
+            completed: completed,
+            board: cells,
+            solution: puzzle.solution,
+            size: puzzle.size,
+            selected: selected
+        )
+    }
+
+    @discardableResult
+    func requestHint(selected: Position? = nil) -> Bool {
+        guard canHint(selected: selected),
+              let target = hintService.targetPosition(
+                board: cells,
+                solution: puzzle.solution,
+                size: puzzle.size,
+                selected: selected
+              ) else {
+            return false
+        }
+
+        apply(.hint(at: target, previous: .empty))
+        return true
+    }
+
+    private func performForward(_ action: GameAction, clearRedoStack: Bool) {
         let idx = index(for: action.position)
 
         switch action {
@@ -93,19 +164,21 @@ final class GameSession {
             cells[idx].state = previous == .empty ? .blocked : .empty
         case .hint:
             cells[idx].state = .animal
+            hintsUsed += 1
         }
 
         undoStack.append(action)
-        redoStack.removeAll()
+        if clearRedoStack {
+            redoStack.removeAll()
+        }
         revalidate()
     }
 
-    /// Reverses the last action and moves it to the redo stack. Full spec: P3.3.
-    func undo() {
-        guard let action = undoStack.popLast() else { return }
+    private func applyInverse(of action: GameAction) {
         cells[index(for: action.position)].state = action.previousState
-        redoStack.append(action)
-        revalidate()
+        if action.isHint {
+            hintsUsed -= 1
+        }
     }
 
     private func revalidate() {

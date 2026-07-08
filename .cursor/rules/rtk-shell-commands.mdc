@@ -1,0 +1,39 @@
+---
+description: Use RTK for all agent shell commands to reduce token usage
+alwaysApply: true
+---
+
+# RTK shell commands
+
+When running commands via the Shell tool, **always prefix with `rtk`** for supported CLI tools. Do not rely on the Cursor preToolUse hook — call RTK explicitly.
+
+## Examples
+
+```bash
+# Good
+rtk git status
+cd /path/to/repo && rtk git diff
+rtk ls -la
+
+# Bad
+git status
+```
+
+## Compound commands
+
+Apply `rtk` to each rewritable subcommand:
+
+```bash
+cd /Users/zalvey/Documents/animalDoku && rtk git status
+```
+
+## Exceptions
+
+- RTK meta commands: `rtk gain`, `rtk hook check`, `rtk proxy` (use as documented)
+- Commands with no RTK wrapper (e.g. `xcodebuild`, `swift`): run directly, or use `rtk proxy '<full command>'` when raw output is needed
+
+## Verify rewrites
+
+```bash
+rtk hook check --agent cursor "git status"
+```

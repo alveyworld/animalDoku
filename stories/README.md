@@ -50,11 +50,11 @@ Actionable developer stories derived from [IMPLEMENTATION_ROADMAP.md](../IMPLEME
 |----|-------|---------|--------|--------|
 | [P3.1](phase-3/P3.1-game-session.md) | GameSession state container | v0.1 | S | ✅ |
 | [P3.2](phase-3/P3.2-place-remove-block-actions.md) | Place, remove & block actions | v0.1 | S | ✅ |
-| [P3.3](phase-3/P3.3-undo.md) | Undo | v0.1 | XS | ⬜ |
-| [P3.4](phase-3/P3.4-redo.md) | Redo | v0.1 | XS | ⬜ |
-| [P3.5](phase-3/P3.5-reset.md) | Reset | v0.1 | XS | ⬜ |
-| [P3.6](phase-3/P3.6-hint-system.md) | Hint system | v0.1 | S | ⬜ |
-| [P3.7](phase-3/P3.7-gamesession-unit-tests.md) | GameSession unit tests | v0.1 | S | ⬜ |
+| [P3.3](phase-3/P3.3-undo.md) | Undo | v0.1 | XS | ✅ |
+| [P3.4](phase-3/P3.4-redo.md) | Redo | v0.1 | XS | ✅ |
+| [P3.5](phase-3/P3.5-reset.md) | Reset | v0.1 | XS | ✅ |
+| [P3.6](phase-3/P3.6-hint-system.md) | Hint system | v0.1 | S | ✅ |
+| [P3.7](phase-3/P3.7-gamesession-unit-tests.md) | GameSession unit tests | v0.1 | S | ✅ |
 | [P3.8](phase-3/P3.8-cell-view.md) | CellView component | v0.1 | S | ⬜ |
 | [P3.9](phase-3/P3.9-board-view.md) | BoardView component | v0.1 | S | ⬜ |
 | [P3.10](phase-3/P3.10-region-patterns.md) | Colorblind region patterns | v0.1 | S | ⬜ |
