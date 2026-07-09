@@ -6,7 +6,7 @@ import SwiftUI
 /// `cellSize = (W - 2p - (size - 1) * g) / size`
 /// Padding tightens on narrow screens so each cell can stay ≥ 44 pt (GDD accessibility).
 ///
-/// Region patterns (P3.10) overlay on top of this view.
+/// Region colorblind patterns (P3.10) render between the region fill and `CellView`.
 struct BoardView: View {
     let puzzle: Puzzle
     let cells: [Cell]
@@ -46,32 +46,38 @@ struct BoardView: View {
         .aspectRatio(1, contentMode: .fit)
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Puzzle board")
+        .accessibilityIdentifier("gameBoard")
     }
 
     @ViewBuilder
     private func boardCell(_ cell: Cell, cellSize: CGFloat) -> some View {
         let position = Position(row: cell.row, col: cell.col)
 
-        ZStack {
-            regionColors.color(for: cell.regionId)
-
-            CellView(
-                row: cell.row,
-                col: cell.col,
-                regionId: cell.regionId,
-                state: cell.state,
-                isSelected: selectedPosition == position,
-                isViolating: isViolating(at: position),
-                animalIcon: animalIcon,
-                onTap: { onCellTap(position) }
-            )
-        }
+        CellView(
+            row: cell.row,
+            col: cell.col,
+            regionId: cell.regionId,
+            state: cell.state,
+            isSelected: selectedPosition == position,
+            isViolating: isViolating(at: position),
+            animalIcon: animalIcon,
+            onTap: { onCellTap(position) }
+        )
         .frame(width: cellSize, height: cellSize)
+        .background {
+            ZStack {
+                regionColors.color(for: cell.regionId)
+                RegionPattern(regionId: cell.regionId)
+            }
+            .allowsHitTesting(false)
+        }
         .clipShape(RoundedRectangle(cornerRadius: AppSpacing.cornerRadiusSmall))
         .overlay(
             RoundedRectangle(cornerRadius: AppSpacing.cornerRadiusSmall)
                 .strokeBorder(AppColors.border.opacity(0.45), lineWidth: AppSpacing.borderWeight)
+                .allowsHitTesting(false)
         )
+        .accessibilityIdentifier("cell_\(cell.row)_\(cell.col)")
     }
 
     private func isViolating(at position: Position) -> Bool {

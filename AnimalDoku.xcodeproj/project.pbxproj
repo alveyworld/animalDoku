@@ -48,6 +48,24 @@
 		O50000000000000000000002 /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = O50000000000000000000001 /* BoardView.swift */; };
 		O50000000000000000000004 /* RegionColorMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = O50000000000000000000003 /* RegionColorMap.swift */; };
 		O50000000000000000000006 /* BoardViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = O50000000000000000000005 /* BoardViewTests.swift */; };
+		P60000000000000000000002 /* RegionPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = P60000000000000000000001 /* RegionPattern.swift */; };
+		P60000000000000000000004 /* RegionPatternTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P60000000000000000000003 /* RegionPatternTests.swift */; };
+		Q70000000000000000000002 /* InputModeToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q70000000000000000000001 /* InputModeToggle.swift */; };
+		Q70000000000000000000004 /* InputModeToggleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q70000000000000000000003 /* InputModeToggleTests.swift */; };
+		R80000000000000000000002 /* GameToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = R80000000000000000000001 /* GameToolbar.swift */; };
+		R80000000000000000000004 /* GameToolbarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = R80000000000000000000003 /* GameToolbarTests.swift */; };
+		S90000000000000000000002 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = S90000000000000000000001 /* GameViewModel.swift */; };
+		S90000000000000000000004 /* GameViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = S90000000000000000000003 /* GameViewModelTests.swift */; };
+		T10000000000000000000002 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = T10000000000000000000001 /* GameView.swift */; };
+		T10000000000000000000004 /* WinScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = T10000000000000000000003 /* WinScreen.swift */; };
+		T10000000000000000000006 /* puzzle-001.json in Resources */ = {isa = PBXBuildFile; fileRef = T10000000000000000000005 /* puzzle-001.json */; };
+		U11000000000000000000002 /* WinScreenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = U11000000000000000000001 /* WinScreenTests.swift */; };
+		V12000000000000000000002 /* AppLaunchConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = V12000000000000000000001 /* AppLaunchConfiguration.swift */; };
+		V12000000000000000000004 /* PuzzleLoadErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = V12000000000000000000003 /* PuzzleLoadErrorView.swift */; };
+		V12000000000000000000006 /* AppLaunchConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = V12000000000000000000005 /* AppLaunchConfigurationTests.swift */; };
+		W13000000000000000000002 /* BoardBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = W13000000000000000000001 /* BoardBuilder.swift */; };
+		W13000000000000000000004 /* PuzzleSolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = W13000000000000000000003 /* PuzzleSolver.swift */; };
+		W13000000000000000000006 /* PuzzleIntegrityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = W13000000000000000000005 /* PuzzleIntegrityTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,10 +86,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A10000000000000000000007 /* AnimalDoku.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimalDoku.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A10000000000000000000002 /* AnimalDokuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalDokuApp.swift; sourceTree = "<group>"; };
 		A10000000000000000000004 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A10000000000000000000006 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A10000000000000000000007 /* AnimalDoku.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimalDoku.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C30000000000000000000001 /* AnimalDokuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnimalDokuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C30000000000000000000002 /* AnimalDokuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalDokuTests.swift; sourceTree = "<group>"; };
 		C3000000000000000000000E /* AnimalDokuUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnimalDokuUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,6 +130,24 @@
 		O50000000000000000000001 /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
 		O50000000000000000000003 /* RegionColorMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionColorMap.swift; sourceTree = "<group>"; };
 		O50000000000000000000005 /* BoardViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewTests.swift; sourceTree = "<group>"; };
+		P60000000000000000000001 /* RegionPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionPattern.swift; sourceTree = "<group>"; };
+		P60000000000000000000003 /* RegionPatternTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionPatternTests.swift; sourceTree = "<group>"; };
+		Q70000000000000000000001 /* InputModeToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputModeToggle.swift; sourceTree = "<group>"; };
+		Q70000000000000000000003 /* InputModeToggleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputModeToggleTests.swift; sourceTree = "<group>"; };
+		R80000000000000000000001 /* GameToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameToolbar.swift; sourceTree = "<group>"; };
+		R80000000000000000000003 /* GameToolbarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameToolbarTests.swift; sourceTree = "<group>"; };
+		S90000000000000000000001 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		S90000000000000000000003 /* GameViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModelTests.swift; sourceTree = "<group>"; };
+		T10000000000000000000001 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		T10000000000000000000003 /* WinScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinScreen.swift; sourceTree = "<group>"; };
+		T10000000000000000000005 /* puzzle-001.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puzzle-001.json"; sourceTree = "<group>"; };
+		U11000000000000000000001 /* WinScreenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinScreenTests.swift; sourceTree = "<group>"; };
+		V12000000000000000000001 /* AppLaunchConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLaunchConfiguration.swift; sourceTree = "<group>"; };
+		V12000000000000000000003 /* PuzzleLoadErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleLoadErrorView.swift; sourceTree = "<group>"; };
+		V12000000000000000000005 /* AppLaunchConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLaunchConfigurationTests.swift; sourceTree = "<group>"; };
+		W13000000000000000000001 /* BoardBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardBuilder.swift; sourceTree = "<group>"; };
+		W13000000000000000000003 /* PuzzleSolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleSolver.swift; sourceTree = "<group>"; };
+		W13000000000000000000005 /* PuzzleIntegrityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleIntegrityTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				A10000000000000000000002 /* AnimalDokuApp.swift */,
+				V12000000000000000000001 /* AppLaunchConfiguration.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -222,6 +259,7 @@
 		B20000000000000000000004 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				S90000000000000000000001 /* GameViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -247,23 +285,19 @@
 			isa = PBXGroup;
 			children = (
 				C30000000000000000000002 /* AnimalDokuTests.swift */,
+				W13000000000000000000005 /* PuzzleIntegrityTests.swift */,
 				D40000000000000000000009 /* DesignSystemTests.swift */,
 				E50000000000000000000003 /* ThemeAssetTests.swift */,
 				F80000000000000000000005 /* PuzzleLoaderTests.swift */,
 				B2000000000000000000000F /* Fixtures */,
+				W13000000000000000000007 /* Helpers */,
 				B2000000000000000000000D /* Engine */,
 				B2000000000000000000000E /* Models */,
 				B20000000000000000000010 /* UI */,
+				B20000000000000000000011 /* ViewModels */,
+				B20000000000000000000012 /* App */,
 			);
 			path = Tests;
-			sourceTree = "<group>";
-		};
-		B2000000000000000000000F /* Fixtures */ = {
-			isa = PBXGroup;
-			children = (
-				M30000000000000000000001 /* TestPuzzleFactory.swift */,
-			);
-			path = Fixtures;
 			sourceTree = "<group>";
 		};
 		B20000000000000000000008 /* DesignSystem */ = {
@@ -283,6 +317,9 @@
 				N40000000000000000000001 /* CellView.swift */,
 				O50000000000000000000001 /* BoardView.swift */,
 				O50000000000000000000003 /* RegionColorMap.swift */,
+				P60000000000000000000001 /* RegionPattern.swift */,
+				Q70000000000000000000001 /* InputModeToggle.swift */,
+				R80000000000000000000001 /* GameToolbar.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -290,6 +327,9 @@
 		B2000000000000000000000A /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				T10000000000000000000001 /* GameView.swift */,
+				T10000000000000000000003 /* WinScreen.swift */,
+				V12000000000000000000003 /* PuzzleLoadErrorView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -298,6 +338,7 @@
 			isa = PBXGroup;
 			children = (
 				F80000000000000000000003 /* puzzle-valid-4x4.json */,
+				T10000000000000000000005 /* puzzle-001.json */,
 			);
 			path = Puzzles;
 			sourceTree = "<group>";
@@ -324,13 +365,50 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		B2000000000000000000000F /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				M30000000000000000000001 /* TestPuzzleFactory.swift */,
+			);
+			path = Fixtures;
+			sourceTree = "<group>";
+		};
+		W13000000000000000000007 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				W13000000000000000000001 /* BoardBuilder.swift */,
+				W13000000000000000000003 /* PuzzleSolver.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		B20000000000000000000010 /* UI */ = {
 			isa = PBXGroup;
 			children = (
 				N40000000000000000000003 /* CellViewTests.swift */,
 				O50000000000000000000005 /* BoardViewTests.swift */,
+				P60000000000000000000003 /* RegionPatternTests.swift */,
+				Q70000000000000000000003 /* InputModeToggleTests.swift */,
+				R80000000000000000000003 /* GameToolbarTests.swift */,
+				U11000000000000000000001 /* WinScreenTests.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		B20000000000000000000011 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				S90000000000000000000003 /* GameViewModelTests.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		B20000000000000000000012 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				V12000000000000000000005 /* AppLaunchConfigurationTests.swift */,
+			);
+			path = App;
 			sourceTree = "<group>";
 		};
 		C30000000000000000000018 /* AnimalDokuUITests */ = {
@@ -405,7 +483,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 2660;
 				TargetAttributes = {
 					A1000000000000000000000D = {
 						CreatedOnToolsVersion = 15.0;
@@ -448,6 +526,7 @@
 				A10000000000000000000005 /* Assets.xcassets in Resources */,
 				E50000000000000000000006 /* Sounds in Resources */,
 				F80000000000000000000004 /* puzzle-valid-4x4.json in Resources */,
+				T10000000000000000000006 /* puzzle-001.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,6 +573,14 @@
 				N40000000000000000000002 /* CellView.swift in Sources */,
 				O50000000000000000000002 /* BoardView.swift in Sources */,
 				O50000000000000000000004 /* RegionColorMap.swift in Sources */,
+				P60000000000000000000002 /* RegionPattern.swift in Sources */,
+				Q70000000000000000000002 /* InputModeToggle.swift in Sources */,
+				R80000000000000000000002 /* GameToolbar.swift in Sources */,
+				S90000000000000000000002 /* GameViewModel.swift in Sources */,
+				T10000000000000000000002 /* GameView.swift in Sources */,
+				T10000000000000000000004 /* WinScreen.swift in Sources */,
+				V12000000000000000000002 /* AppLaunchConfiguration.swift in Sources */,
+				V12000000000000000000004 /* PuzzleLoadErrorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,6 +603,15 @@
 				M30000000000000000000002 /* TestPuzzleFactory.swift in Sources */,
 				N40000000000000000000004 /* CellViewTests.swift in Sources */,
 				O50000000000000000000006 /* BoardViewTests.swift in Sources */,
+				P60000000000000000000004 /* RegionPatternTests.swift in Sources */,
+				Q70000000000000000000004 /* InputModeToggleTests.swift in Sources */,
+				R80000000000000000000004 /* GameToolbarTests.swift in Sources */,
+				S90000000000000000000004 /* GameViewModelTests.swift in Sources */,
+				U11000000000000000000002 /* WinScreenTests.swift in Sources */,
+				V12000000000000000000006 /* AppLaunchConfigurationTests.swift in Sources */,
+				W13000000000000000000002 /* BoardBuilder.swift in Sources */,
+				W13000000000000000000004 /* PuzzleSolver.swift in Sources */,
+				W13000000000000000000006 /* PuzzleIntegrityTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,6 +697,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -657,6 +754,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -811,20 +909,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A10000000000000000000012 /* Build configuration list for PBXProject "AnimalDoku" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A10000000000000000000013 /* Debug */,
-				A10000000000000000000014 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		A1000000000000000000000E /* Build configuration list for PBXNativeTarget "AnimalDoku" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A10000000000000000000015 /* Debug */,
 				A10000000000000000000016 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A10000000000000000000012 /* Build configuration list for PBXProject "AnimalDoku" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A10000000000000000000013 /* Debug */,
+				A10000000000000000000014 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

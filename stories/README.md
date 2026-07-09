@@ -57,13 +57,13 @@ Actionable developer stories derived from [IMPLEMENTATION_ROADMAP.md](../IMPLEME
 | [P3.7](phase-3/P3.7-gamesession-unit-tests.md) | GameSession unit tests | v0.1 | S | ✅ |
 | [P3.8](phase-3/P3.8-cell-view.md) | CellView component | v0.1 | S | ✅ |
 | [P3.9](phase-3/P3.9-board-view.md) | BoardView component | v0.1 | S | ✅ |
-| [P3.10](phase-3/P3.10-region-patterns.md) | Colorblind region patterns | v0.1 | S | ⬜ |
-| [P3.11](phase-3/P3.11-input-mode-toggle.md) | Place / Mark input mode toggle | v0.1 | XS | ⬜ |
-| [P3.12](phase-3/P3.12-game-toolbar.md) | Game toolbar | v0.1 | XS | ⬜ |
-| [P3.13](phase-3/P3.13-game-view-model.md) | GameViewModel | v0.1 | S | ⬜ |
-| [P3.14](phase-3/P3.14-game-view.md) | GameView screen | v0.1 | S | ⬜ |
-| [P3.15](phase-3/P3.15-win-screen.md) | Win screen overlay | v0.1 | S | ⬜ |
-| [P3.16](phase-3/P3.16-app-entry-point.md) | App entry point | v0.1 | XS | ⬜ |
+| [P3.10](phase-3/P3.10-region-patterns.md) | Colorblind region patterns | v0.1 | S | ✅ |
+| [P3.11](phase-3/P3.11-input-mode-toggle.md) | Place / Mark input mode toggle | v0.1 | XS | ✅ |
+| [P3.12](phase-3/P3.12-game-toolbar.md) | Game toolbar | v0.1 | XS | ✅ |
+| [P3.13](phase-3/P3.13-game-view-model.md) | GameViewModel | v0.1 | S | ✅ |
+| [P3.14](phase-3/P3.14-game-view.md) | GameView screen | v0.1 | S | ✅ |
+| [P3.15](phase-3/P3.15-win-screen.md) | Win screen overlay | v0.1 | S | ✅ |
+| [P3.16](phase-3/P3.16-app-entry-point.md) | App entry point | v0.1 | XS | ✅ |
 
 **Milestone:** After P3.14 + P3.15 + P2.8 — first fully playable puzzle.
 
@@ -95,7 +95,7 @@ Actionable developer stories derived from [IMPLEMENTATION_ROADMAP.md](../IMPLEME
 
 | ID | Story | Release | Effort | Status |
 |----|-------|---------|--------|--------|
-| [P6.1](phase-6/P6.1-puzzle-integrity-tests.md) | Puzzle integrity tests | v0.1 | S | ⬜ |
+| [P6.1](phase-6/P6.1-puzzle-integrity-tests.md) | Puzzle integrity tests | v0.1 | S | ✅ |
 | [P6.2](phase-6/P6.2-ui-test-play-to-win.md) | UI test — play to win | v1.0 | S | ⬜ |
 | [P6.3](phase-6/P6.3-accessibility-audit.md) | Accessibility audit | v1.0 | S | ⬜ |
 | [P6.4](phase-6/P6.4-device-matrix-testing.md) | Device matrix testing | v1.1 | S | ⬜ |

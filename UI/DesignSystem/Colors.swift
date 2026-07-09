@@ -26,6 +26,9 @@ enum AppColors {
     /// Secondary labels and hints.
     static let secondary = Color(red: 0.55, green: 0.58, blue: 0.62)
 
+    /// Pattern strokes for colorblind region overlays (P3.10).
+    static let patternOverlay = Color.black
+
     // MARK: - Region palette
 
     /// Pastel region fills for the 8×8 board. Paired with borders/patterns for colorblind support (GDD accessibility).

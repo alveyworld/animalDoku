@@ -19,9 +19,12 @@ struct CellView: View {
     var body: some View {
         Button(action: onTap) {
             cellContent
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .frame(minWidth: TouchTarget.minimum, minHeight: TouchTarget.minimum)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .accessibilityLabel(CellViewAccessibility.label(
             row: row,
             col: col,
@@ -52,6 +55,7 @@ struct CellView: View {
         switch state {
         case .empty:
             Color.clear
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .accessibilityHidden(true)
         case .blocked:
             BlockedMark()

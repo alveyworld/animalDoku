@@ -42,6 +42,10 @@ struct PuzzleLoader {
         return puzzle
     }
 
+    func loadAllPuzzles(in bundle: Bundle = .main) throws -> [Puzzle] {
+        try availablePuzzleNames(in: bundle).map { try load(named: $0, in: bundle) }
+    }
+
     func availablePuzzleNames(in bundle: Bundle = .main) -> [String] {
         var urls = bundle.urls(forResourcesWithExtension: "json", subdirectory: "Puzzles") ?? []
         if urls.isEmpty {

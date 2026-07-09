@@ -1,7 +1,7 @@
 import Foundation
 
 /// Place vs. mark (blocked) input mode. See [Formal Rules §Interaction Model](AnimalDoku_Formal_Rules_and_Data_Model.md#interaction-model).
-enum InputMode: Equatable {
+enum InputMode: Equatable, Hashable {
     case place
     case mark
 }

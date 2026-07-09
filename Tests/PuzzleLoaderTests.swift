@@ -12,7 +12,7 @@ final class PuzzleLoaderTests: XCTestCase {
         XCTAssertEqual(puzzle.difficulty, .easy)
         XCTAssertEqual(puzzle.regions.count, 4)
         XCTAssertEqual(puzzle.solution.count, 4)
-        XCTAssertEqual(puzzle.solution[0], Position(row: 0, col: 1))
+        XCTAssertEqual(puzzle.solution[0], Position(row: 0, col: 2))
     }
 
     func testValidPuzzlePassesPartitionValidation() throws {
@@ -181,8 +181,20 @@ final class PuzzleLoaderTests: XCTestCase {
         }
     }
 
+    func testLoadsMVPBundledPuzzle() throws {
+        let puzzle = try loader.load(named: "puzzle-001")
+
+        XCTAssertEqual(puzzle.id, "puzzle-001")
+        XCTAssertEqual(puzzle.size, 8)
+        XCTAssertEqual(puzzle.difficulty, .easy)
+        XCTAssertEqual(puzzle.regions.count, 8)
+        XCTAssertEqual(puzzle.solution.count, 8)
+        XCTAssertTrue(puzzle.initialPlacements.isEmpty)
+    }
+
     func testAvailablePuzzleNamesIncludesBundledFixture() throws {
         let names = loader.availablePuzzleNames()
         XCTAssertTrue(names.contains("puzzle-valid-4x4"))
+        XCTAssertTrue(names.contains("puzzle-001"))
     }
 }
