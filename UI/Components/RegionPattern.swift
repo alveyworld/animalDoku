@@ -1,6 +1,9 @@
 import SwiftUI
 
-/// Visual pattern styles for colorblind-friendly region distinction (GDD accessibility).
+/// Visual pattern styles historically used for colorblind region distinction (P3.10).
+///
+/// **P8.1:** `BoardView` no longer draws these overlays — regions use solid accessible
+/// colors plus cell borders. This catalog remains for reference / possible future toggle.
 ///
 /// Mapping (deterministic by `regionId % count`):
 /// | regionId | Pattern            |

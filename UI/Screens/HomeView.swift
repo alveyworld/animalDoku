@@ -23,6 +23,8 @@ struct HomeView: View {
         }
         .navigationTitle(String(localized: "home.title", defaultValue: "AnimalDoku"))
         .accessibilityIdentifier("homeView")
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(AppColors.background.ignoresSafeArea())
         .onAppear {
             resumeRefreshToken = UUID()
         }

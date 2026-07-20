@@ -6,7 +6,7 @@ import SwiftUI
 /// `cellSize = (W - 2p - (size - 1) * g) / size`
 /// Padding tightens on narrow screens so each cell can stay ≥ 44 pt (GDD accessibility).
 ///
-/// Region colorblind patterns (P3.10) render between the region fill and `CellView`.
+/// Region fills use the accessible solid palette (P8.1); hatch patterns (P3.10) are not drawn.
 ///
 /// Interaction (P6.5): single tap marks, double tap places/removes; drag paints marks (P5.7).
 struct BoardView: View {
@@ -18,7 +18,6 @@ struct BoardView: View {
     var selectedPosition: Position? = nil
     var isBoardLocked: Bool = false
     var theme: Theme = ThemeCatalog.defaultTheme
-    var animalIcon: Image = ThemeAsset.image(for: ThemeCatalog.defaultTheme)
     var onCellSingleTap: (Position) -> Void = { _ in }
     var onCellDoubleTap: (Position) -> Void = { _ in }
     var onMarkDragBegan: (Position) -> Void = { _ in }
@@ -31,10 +30,6 @@ struct BoardView: View {
 
     private var regionColors: RegionColorMap {
         RegionColorMap(regions: puzzle.regions, highContrast: highContrast)
-    }
-
-    private var iconColor: Color {
-        highContrast ? AppColors.resolvedPrimary(highContrast: true) : theme.resolvedPrimaryColor
     }
 
     private var selectionColor: Color {
@@ -128,8 +123,7 @@ struct BoardView: View {
             isSelected: selectedPosition == position,
             isViolating: isViolating(at: position),
             isBoardLocked: isBoardLocked,
-            animalIcon: animalIcon,
-            animalIconColor: iconColor,
+            theme: theme,
             selectionBorderColor: selectionColor,
             onSingleTap: {
                 guard !suppressCellTaps, !isMarkDragging else { return }
@@ -142,21 +136,21 @@ struct BoardView: View {
         )
         .frame(width: cellSize, height: cellSize)
         .background {
+            // Fill + border stay behind CellView so look-around can paint over the edge.
             ZStack {
                 regionColors.color(for: cell.regionId)
-                RegionPattern(regionId: cell.regionId, highContrast: highContrast)
+                    .clipShape(RoundedRectangle(cornerRadius: AppSpacing.cornerRadiusSmall))
+
+                RoundedRectangle(cornerRadius: AppSpacing.cornerRadiusSmall)
+                    .strokeBorder(
+                        AppColors.resolvedBorder(highContrast: highContrast).opacity(highContrast ? 1 : 0.75),
+                        lineWidth: AppColors.borderWeight(highContrast: highContrast)
+                    )
             }
             .allowsHitTesting(false)
         }
-        .clipShape(RoundedRectangle(cornerRadius: AppSpacing.cornerRadiusSmall))
-        .overlay(
-            RoundedRectangle(cornerRadius: AppSpacing.cornerRadiusSmall)
-                .strokeBorder(
-                    AppColors.resolvedBorder(highContrast: highContrast).opacity(highContrast ? 1 : 0.45),
-                    lineWidth: AppColors.borderWeight(highContrast: highContrast)
-                )
-                .allowsHitTesting(false)
-        )
+        // Keep looking heads above neighboring cells while they tilt/offset.
+        .zIndex(cell.state == .animal ? 1 : 0)
     }
 
     private func isViolating(at position: Position) -> Bool {

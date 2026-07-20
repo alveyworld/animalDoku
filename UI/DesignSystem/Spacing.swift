@@ -28,6 +28,6 @@ enum AppSpacing {
 
     // MARK: - Borders
 
-    /// Default border stroke for cells and regions.
-    static let borderWeight: CGFloat = 1.0
+    /// Default border stroke for cells and regions (slightly stronger after P8.1).
+    static let borderWeight: CGFloat = 1.5
 }

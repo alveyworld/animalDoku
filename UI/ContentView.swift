@@ -38,7 +38,8 @@ struct ContentView: View {
                 directGameContent
             }
         }
-        .background(AppColors.resolvedBackground(highContrast: settings.highContrastEnabled))
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(AppColors.resolvedBackground(highContrast: settings.highContrastEnabled).ignoresSafeArea())
         .environment(\.highContrast, settings.highContrastEnabled)
         .onAppear {
             presentTutorialIfNeeded()

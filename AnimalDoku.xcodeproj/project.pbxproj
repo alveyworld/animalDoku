@@ -8,32 +8,46 @@
 
 /* Begin PBXBuildFile section */
 		A10000000000000000000001 /* AnimalDokuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000002 /* AnimalDokuApp.swift */; };
+		F82000000000000000000004 /* AppFontRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82000000000000000000003 /* AppFontRegistration.swift */; };
 		A10000000000000000000003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000004 /* ContentView.swift */; };
 		A10000000000000000000005 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000006 /* Assets.xcassets */; };
+		F82000000000000000000002 /* VaselineExtra.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F82000000000000000000001 /* VaselineExtra.ttf */; };
+		AA1700000000000000000002 /* TimerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1700000000000000000001 /* TimerService.swift */; };
+		AA1700000000000000000004 /* TimerServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1700000000000000000003 /* TimerServiceTests.swift */; };
+		AB1800000000000000000002 /* SaveGameStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1800000000000000000001 /* SaveGameStore.swift */; };
+		AB1800000000000000000004 /* SaveGameStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1800000000000000000003 /* SaveGameStoreTests.swift */; };
+		AC1900000000000000000002 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1900000000000000000001 /* HomeView.swift */; };
+		AC1900000000000000000004 /* HomeCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1900000000000000000003 /* HomeCatalog.swift */; };
+		AC1900000000000000000006 /* HomeCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1900000000000000000005 /* HomeCatalogTests.swift */; };
+		AD2000000000000000000002 /* puzzle-002.json in Resources */ = {isa = PBXBuildFile; fileRef = AD2000000000000000000001 /* puzzle-002.json */; };
+		AD2000000000000000000004 /* puzzle-003.json in Resources */ = {isa = PBXBuildFile; fileRef = AD2000000000000000000003 /* puzzle-003.json */; };
+		AD2000000000000000000006 /* puzzle-004.json in Resources */ = {isa = PBXBuildFile; fileRef = AD2000000000000000000005 /* puzzle-004.json */; };
+		AD2000000000000000000008 /* puzzle-005.json in Resources */ = {isa = PBXBuildFile; fileRef = AD2000000000000000000007 /* puzzle-005.json */; };
+		AD200000000000000000000A /* puzzle-006.json in Resources */ = {isa = PBXBuildFile; fileRef = AD2000000000000000000009 /* puzzle-006.json */; };
+		AD200000000000000000000C /* puzzle-007.json in Resources */ = {isa = PBXBuildFile; fileRef = AD200000000000000000000B /* puzzle-007.json */; };
+		AD200000000000000000000E /* puzzle-008.json in Resources */ = {isa = PBXBuildFile; fileRef = AD200000000000000000000D /* puzzle-008.json */; };
+		AD2000000000000000000010 /* puzzle-009.json in Resources */ = {isa = PBXBuildFile; fileRef = AD200000000000000000000F /* puzzle-009.json */; };
 		AE2100000000000000000002 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE2100000000000000000001 /* LaunchScreen.storyboard */; };
-		P71000000000000000000002 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = P71000000000000000000001 /* PrivacyInfo.xcprivacy */; };
-		P71000000000000000000004 /* PrivacyManifestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P71000000000000000000003 /* PrivacyManifestTests.swift */; };
+		AF2200000000000000000002 /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2200000000000000000001 /* TutorialView.swift */; };
+		AF2200000000000000000004 /* TutorialCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2200000000000000000003 /* TutorialCatalog.swift */; };
+		AF2200000000000000000006 /* TutorialCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2200000000000000000005 /* TutorialCatalogTests.swift */; };
+		B02300000000000000000002 /* HapticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02300000000000000000001 /* HapticService.swift */; };
+		B02300000000000000000004 /* HapticServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02300000000000000000003 /* HapticServiceTests.swift */; };
 		C30000000000000000000003 /* AnimalDokuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30000000000000000000002 /* AnimalDokuTests.swift */; };
 		C30000000000000000000010 /* AnimalDokuUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3000000000000000000000F /* AnimalDokuUITests.swift */; };
-		P62000000000000000000002 /* UITestReduceMotionModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = P62000000000000000000001 /* UITestReduceMotionModifier.swift */; };
-		P62000000000000000000004 /* GameplayUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P62000000000000000000003 /* GameplayUITests.swift */; };
-		P62000000000000000000006 /* Puzzle001Solution.swift in Sources */ = {isa = PBXBuildFile; fileRef = P62000000000000000000005 /* Puzzle001Solution.swift */; };
-		P62000000000000000000008 /* Puzzle001SolutionContractTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P62000000000000000000007 /* Puzzle001SolutionContractTests.swift */; };
-		P63000000000000000000002 /* AccessibilityUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P63000000000000000000001 /* AccessibilityUITests.swift */; };
-		P64000000000000000000002 /* DeviceMatrixUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P64000000000000000000001 /* DeviceMatrixUITests.swift */; };
 		D40000000000000000000002 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40000000000000000000001 /* Colors.swift */; };
 		D40000000000000000000004 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40000000000000000000003 /* Spacing.swift */; };
 		D40000000000000000000006 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40000000000000000000005 /* Typography.swift */; };
 		D40000000000000000000008 /* TouchTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40000000000000000000007 /* TouchTarget.swift */; };
-		D40000000000000000000012 /* Motion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40000000000000000000011 /* Motion.swift */; };
-		D40000000000000000000016 /* HighContrastEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40000000000000000000015 /* HighContrastEnvironment.swift */; };
-		D40000000000000000000014 /* MotionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40000000000000000000013 /* MotionTests.swift */; };
 		D40000000000000000000010 /* DesignSystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40000000000000000000009 /* DesignSystemTests.swift */; };
+		D40000000000000000000012 /* Motion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40000000000000000000011 /* Motion.swift */; };
+		D40000000000000000000014 /* MotionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40000000000000000000013 /* MotionTests.swift */; };
+		D40000000000000000000016 /* HighContrastEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40000000000000000000015 /* HighContrastEnvironment.swift */; };
 		E50000000000000000000002 /* ThemeAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50000000000000000000001 /* ThemeAssets.swift */; };
 		E50000000000000000000004 /* ThemeAssetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50000000000000000000003 /* ThemeAssetTests.swift */; };
+		E50000000000000000000006 /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = E50000000000000000000005 /* Sounds */; };
 		E50000000000000000000008 /* ThemeCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50000000000000000000007 /* ThemeCatalog.swift */; };
 		E5000000000000000000000A /* ThemeCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50000000000000000000009 /* ThemeCatalogTests.swift */; };
-		E50000000000000000000006 /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = E50000000000000000000005 /* Sounds */; };
 		F60000000000000000000002 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60000000000000000000001 /* Position.swift */; };
 		F60000000000000000000004 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60000000000000000000003 /* Cell.swift */; };
 		F60000000000000000000006 /* Region.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60000000000000000000005 /* Region.swift */; };
@@ -53,53 +67,35 @@
 		I90000000000000000000002 /* ValidatorCompletionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = I90000000000000000000001 /* ValidatorCompletionTests.swift */; };
 		J00000000000000000000002 /* ValidatorValidateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = J00000000000000000000001 /* ValidatorValidateTests.swift */; };
 		K10000000000000000000002 /* GameSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = K10000000000000000000001 /* GameSession.swift */; };
-		AA1700000000000000000002 /* TimerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1700000000000000000001 /* TimerService.swift */; };
-		AA1700000000000000000004 /* TimerServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1700000000000000000003 /* TimerServiceTests.swift */; };
 		K10000000000000000000004 /* GameSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = K10000000000000000000003 /* GameSessionTests.swift */; };
 		L20000000000000000000002 /* HintService.swift in Sources */ = {isa = PBXBuildFile; fileRef = L20000000000000000000001 /* HintService.swift */; };
 		L20000000000000000000004 /* HintServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = L20000000000000000000003 /* HintServiceTests.swift */; };
 		M30000000000000000000002 /* TestPuzzleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = M30000000000000000000001 /* TestPuzzleFactory.swift */; };
 		N40000000000000000000002 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = N40000000000000000000001 /* CellView.swift */; };
+		P83000000000000000000002 /* AnimalHeadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = P83000000000000000000001 /* AnimalHeadView.swift */; };
+		P83000000000000000000004 /* AnimalHeadViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P83000000000000000000003 /* AnimalHeadViewTests.swift */; };
 		N40000000000000000000004 /* CellViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = N40000000000000000000003 /* CellViewTests.swift */; };
 		O50000000000000000000002 /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = O50000000000000000000001 /* BoardView.swift */; };
 		O50000000000000000000004 /* RegionColorMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = O50000000000000000000003 /* RegionColorMap.swift */; };
 		O50000000000000000000006 /* BoardViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = O50000000000000000000005 /* BoardViewTests.swift */; };
 		P60000000000000000000002 /* RegionPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = P60000000000000000000001 /* RegionPattern.swift */; };
 		P60000000000000000000004 /* RegionPatternTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P60000000000000000000003 /* RegionPatternTests.swift */; };
+		P62000000000000000000002 /* UITestReduceMotionModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = P62000000000000000000001 /* UITestReduceMotionModifier.swift */; };
+		P62000000000000000000004 /* GameplayUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P62000000000000000000003 /* GameplayUITests.swift */; };
+		P62000000000000000000006 /* Puzzle001Solution.swift in Sources */ = {isa = PBXBuildFile; fileRef = P62000000000000000000005 /* Puzzle001Solution.swift */; };
+		P62000000000000000000008 /* Puzzle001SolutionContractTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P62000000000000000000007 /* Puzzle001SolutionContractTests.swift */; };
+		P63000000000000000000002 /* AccessibilityUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P63000000000000000000001 /* AccessibilityUITests.swift */; };
+		P64000000000000000000002 /* DeviceMatrixUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P64000000000000000000001 /* DeviceMatrixUITests.swift */; };
+		P71000000000000000000002 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = P71000000000000000000001 /* PrivacyInfo.xcprivacy */; };
+		P71000000000000000000004 /* PrivacyManifestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P71000000000000000000003 /* PrivacyManifestTests.swift */; };
 		Q70000000000000000000004 /* InputModeToggleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q70000000000000000000003 /* InputModeToggleTests.swift */; };
-		X14000000000000000000002 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = X14000000000000000000001 /* SettingsStore.swift */; };
-		AB1800000000000000000002 /* SaveGameStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1800000000000000000001 /* SaveGameStore.swift */; };
-		AB1800000000000000000004 /* SaveGameStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1800000000000000000003 /* SaveGameStoreTests.swift */; };
-		Z16000000000000000000002 /* SoundService.swift in Sources */ = {isa = PBXBuildFile; fileRef = Z16000000000000000000001 /* SoundService.swift */; };
-		Z16000000000000000000004 /* SoundServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = Z16000000000000000000003 /* SoundServiceTests.swift */; };
-		B02300000000000000000002 /* HapticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02300000000000000000001 /* HapticService.swift */; };
-		B02300000000000000000004 /* HapticServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02300000000000000000003 /* HapticServiceTests.swift */; };
-		X14000000000000000000004 /* ThemePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = X14000000000000000000003 /* ThemePicker.swift */; };
-		X14000000000000000000006 /* SettingsStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = X14000000000000000000005 /* SettingsStoreTests.swift */; };
-		X14000000000000000000008 /* ThemePickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = X14000000000000000000007 /* ThemePickerTests.swift */; };
 		R80000000000000000000002 /* GameToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = R80000000000000000000001 /* GameToolbar.swift */; };
 		R80000000000000000000004 /* GameToolbarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = R80000000000000000000003 /* GameToolbarTests.swift */; };
 		S90000000000000000000002 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = S90000000000000000000001 /* GameViewModel.swift */; };
 		S90000000000000000000004 /* GameViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = S90000000000000000000003 /* GameViewModelTests.swift */; };
 		T10000000000000000000002 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = T10000000000000000000001 /* GameView.swift */; };
 		T10000000000000000000004 /* WinScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = T10000000000000000000003 /* WinScreen.swift */; };
-		Y15000000000000000000002 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = Y15000000000000000000001 /* SettingsView.swift */; };
-		Y15000000000000000000004 /* SettingsViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = Y15000000000000000000003 /* SettingsViewTests.swift */; };
-		AC1900000000000000000002 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1900000000000000000001 /* HomeView.swift */; };
-		AC1900000000000000000004 /* HomeCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1900000000000000000003 /* HomeCatalog.swift */; };
-		AC1900000000000000000006 /* HomeCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1900000000000000000005 /* HomeCatalogTests.swift */; };
-		AF2200000000000000000002 /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2200000000000000000001 /* TutorialView.swift */; };
-		AF2200000000000000000004 /* TutorialCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2200000000000000000003 /* TutorialCatalog.swift */; };
-		AF2200000000000000000006 /* TutorialCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2200000000000000000005 /* TutorialCatalogTests.swift */; };
 		T10000000000000000000006 /* puzzle-001.json in Resources */ = {isa = PBXBuildFile; fileRef = T10000000000000000000005 /* puzzle-001.json */; };
-		AD2000000000000000000002 /* puzzle-002.json in Resources */ = {isa = PBXBuildFile; fileRef = AD2000000000000000000001 /* puzzle-002.json */; };
-		AD2000000000000000000004 /* puzzle-003.json in Resources */ = {isa = PBXBuildFile; fileRef = AD2000000000000000000003 /* puzzle-003.json */; };
-		AD2000000000000000000006 /* puzzle-004.json in Resources */ = {isa = PBXBuildFile; fileRef = AD2000000000000000000005 /* puzzle-004.json */; };
-		AD2000000000000000000008 /* puzzle-005.json in Resources */ = {isa = PBXBuildFile; fileRef = AD2000000000000000000007 /* puzzle-005.json */; };
-		AD200000000000000000000A /* puzzle-006.json in Resources */ = {isa = PBXBuildFile; fileRef = AD2000000000000000000009 /* puzzle-006.json */; };
-		AD200000000000000000000C /* puzzle-007.json in Resources */ = {isa = PBXBuildFile; fileRef = AD200000000000000000000B /* puzzle-007.json */; };
-		AD200000000000000000000E /* puzzle-008.json in Resources */ = {isa = PBXBuildFile; fileRef = AD200000000000000000000D /* puzzle-008.json */; };
-		AD2000000000000000000010 /* puzzle-009.json in Resources */ = {isa = PBXBuildFile; fileRef = AD200000000000000000000F /* puzzle-009.json */; };
 		U11000000000000000000002 /* WinScreenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = U11000000000000000000001 /* WinScreenTests.swift */; };
 		V12000000000000000000002 /* AppLaunchConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = V12000000000000000000001 /* AppLaunchConfiguration.swift */; };
 		V12000000000000000000004 /* PuzzleLoadErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = V12000000000000000000003 /* PuzzleLoadErrorView.swift */; };
@@ -107,6 +103,14 @@
 		W13000000000000000000002 /* BoardBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = W13000000000000000000001 /* BoardBuilder.swift */; };
 		W13000000000000000000004 /* PuzzleSolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = W13000000000000000000003 /* PuzzleSolver.swift */; };
 		W13000000000000000000006 /* PuzzleIntegrityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = W13000000000000000000005 /* PuzzleIntegrityTests.swift */; };
+		X14000000000000000000002 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = X14000000000000000000001 /* SettingsStore.swift */; };
+		X14000000000000000000004 /* ThemePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = X14000000000000000000003 /* ThemePicker.swift */; };
+		X14000000000000000000006 /* SettingsStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = X14000000000000000000005 /* SettingsStoreTests.swift */; };
+		X14000000000000000000008 /* ThemePickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = X14000000000000000000007 /* ThemePickerTests.swift */; };
+		Y15000000000000000000002 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = Y15000000000000000000001 /* SettingsView.swift */; };
+		Y15000000000000000000004 /* SettingsViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = Y15000000000000000000003 /* SettingsViewTests.swift */; };
+		Z16000000000000000000002 /* SoundService.swift in Sources */ = {isa = PBXBuildFile; fileRef = Z16000000000000000000001 /* SoundService.swift */; };
+		Z16000000000000000000004 /* SoundServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = Z16000000000000000000003 /* SoundServiceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,35 +132,50 @@
 
 /* Begin PBXFileReference section */
 		A10000000000000000000002 /* AnimalDokuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalDokuApp.swift; sourceTree = "<group>"; };
+		F82000000000000000000003 /* AppFontRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFontRegistration.swift; sourceTree = "<group>"; };
+		F82000000000000000000005 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A10000000000000000000004 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A10000000000000000000006 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		AE2100000000000000000001 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		P71000000000000000000001 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		P71000000000000000000003 /* PrivacyManifestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyManifestTests.swift; sourceTree = "<group>"; };
+		F82000000000000000000001 /* VaselineExtra.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = VaselineExtra.ttf; sourceTree = "<group>"; };
 		A10000000000000000000007 /* AnimalDoku.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimalDoku.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA1700000000000000000001 /* TimerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerService.swift; sourceTree = "<group>"; };
+		AA1700000000000000000003 /* TimerServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerServiceTests.swift; sourceTree = "<group>"; };
+		AB1800000000000000000001 /* SaveGameStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveGameStore.swift; sourceTree = "<group>"; };
+		AB1800000000000000000003 /* SaveGameStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveGameStoreTests.swift; sourceTree = "<group>"; };
+		AC1900000000000000000001 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		AC1900000000000000000003 /* HomeCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCatalog.swift; sourceTree = "<group>"; };
+		AC1900000000000000000005 /* HomeCatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCatalogTests.swift; sourceTree = "<group>"; };
+		AD2000000000000000000001 /* puzzle-002.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puzzle-002.json"; sourceTree = "<group>"; };
+		AD2000000000000000000003 /* puzzle-003.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puzzle-003.json"; sourceTree = "<group>"; };
+		AD2000000000000000000005 /* puzzle-004.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puzzle-004.json"; sourceTree = "<group>"; };
+		AD2000000000000000000007 /* puzzle-005.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puzzle-005.json"; sourceTree = "<group>"; };
+		AD2000000000000000000009 /* puzzle-006.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puzzle-006.json"; sourceTree = "<group>"; };
+		AD200000000000000000000B /* puzzle-007.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puzzle-007.json"; sourceTree = "<group>"; };
+		AD200000000000000000000D /* puzzle-008.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puzzle-008.json"; sourceTree = "<group>"; };
+		AD200000000000000000000F /* puzzle-009.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puzzle-009.json"; sourceTree = "<group>"; };
+		AE2100000000000000000001 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		AF2200000000000000000001 /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
+		AF2200000000000000000003 /* TutorialCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialCatalog.swift; sourceTree = "<group>"; };
+		AF2200000000000000000005 /* TutorialCatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialCatalogTests.swift; sourceTree = "<group>"; };
+		B02300000000000000000001 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
+		B02300000000000000000003 /* HapticServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticServiceTests.swift; sourceTree = "<group>"; };
 		C30000000000000000000001 /* AnimalDokuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnimalDokuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C30000000000000000000002 /* AnimalDokuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalDokuTests.swift; sourceTree = "<group>"; };
 		C3000000000000000000000E /* AnimalDokuUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnimalDokuUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3000000000000000000000F /* AnimalDokuUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalDokuUITests.swift; sourceTree = "<group>"; };
-		P62000000000000000000001 /* UITestReduceMotionModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestReduceMotionModifier.swift; sourceTree = "<group>"; };
-		P62000000000000000000003 /* GameplayUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameplayUITests.swift; sourceTree = "<group>"; };
-		P62000000000000000000005 /* Puzzle001Solution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzle001Solution.swift; sourceTree = "<group>"; };
-		P62000000000000000000007 /* Puzzle001SolutionContractTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzle001SolutionContractTests.swift; sourceTree = "<group>"; };
-		P63000000000000000000001 /* AccessibilityUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityUITests.swift; sourceTree = "<group>"; };
-		P64000000000000000000001 /* DeviceMatrixUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceMatrixUITests.swift; sourceTree = "<group>"; };
 		D40000000000000000000001 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		D40000000000000000000003 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
 		D40000000000000000000005 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		D40000000000000000000007 /* TouchTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchTarget.swift; sourceTree = "<group>"; };
-		D40000000000000000000011 /* Motion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Motion.swift; sourceTree = "<group>"; };
-		D40000000000000000000015 /* HighContrastEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighContrastEnvironment.swift; sourceTree = "<group>"; };
-		D40000000000000000000013 /* MotionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionTests.swift; sourceTree = "<group>"; };
 		D40000000000000000000009 /* DesignSystemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystemTests.swift; sourceTree = "<group>"; };
+		D40000000000000000000011 /* Motion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Motion.swift; sourceTree = "<group>"; };
+		D40000000000000000000013 /* MotionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionTests.swift; sourceTree = "<group>"; };
+		D40000000000000000000015 /* HighContrastEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighContrastEnvironment.swift; sourceTree = "<group>"; };
 		E50000000000000000000001 /* ThemeAssets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeAssets.swift; sourceTree = "<group>"; };
 		E50000000000000000000003 /* ThemeAssetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeAssetTests.swift; sourceTree = "<group>"; };
+		E50000000000000000000005 /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
 		E50000000000000000000007 /* ThemeCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCatalog.swift; sourceTree = "<group>"; };
 		E50000000000000000000009 /* ThemeCatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCatalogTests.swift; sourceTree = "<group>"; };
-		E50000000000000000000005 /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
 		F60000000000000000000001 /* Position.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
 		F60000000000000000000003 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		F60000000000000000000005 /* Region.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Region.swift; sourceTree = "<group>"; };
@@ -176,53 +195,35 @@
 		I90000000000000000000001 /* ValidatorCompletionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatorCompletionTests.swift; sourceTree = "<group>"; };
 		J00000000000000000000001 /* ValidatorValidateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatorValidateTests.swift; sourceTree = "<group>"; };
 		K10000000000000000000001 /* GameSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSession.swift; sourceTree = "<group>"; };
-		AA1700000000000000000001 /* TimerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerService.swift; sourceTree = "<group>"; };
-		AA1700000000000000000003 /* TimerServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerServiceTests.swift; sourceTree = "<group>"; };
 		K10000000000000000000003 /* GameSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSessionTests.swift; sourceTree = "<group>"; };
 		L20000000000000000000001 /* HintService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintService.swift; sourceTree = "<group>"; };
 		L20000000000000000000003 /* HintServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintServiceTests.swift; sourceTree = "<group>"; };
 		M30000000000000000000001 /* TestPuzzleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPuzzleFactory.swift; sourceTree = "<group>"; };
 		N40000000000000000000001 /* CellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
+		P83000000000000000000001 /* AnimalHeadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalHeadView.swift; sourceTree = "<group>"; };
+		P83000000000000000000003 /* AnimalHeadViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalHeadViewTests.swift; sourceTree = "<group>"; };
 		N40000000000000000000003 /* CellViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellViewTests.swift; sourceTree = "<group>"; };
 		O50000000000000000000001 /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
 		O50000000000000000000003 /* RegionColorMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionColorMap.swift; sourceTree = "<group>"; };
 		O50000000000000000000005 /* BoardViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewTests.swift; sourceTree = "<group>"; };
 		P60000000000000000000001 /* RegionPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionPattern.swift; sourceTree = "<group>"; };
 		P60000000000000000000003 /* RegionPatternTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionPatternTests.swift; sourceTree = "<group>"; };
+		P62000000000000000000001 /* UITestReduceMotionModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestReduceMotionModifier.swift; sourceTree = "<group>"; };
+		P62000000000000000000003 /* GameplayUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameplayUITests.swift; sourceTree = "<group>"; };
+		P62000000000000000000005 /* Puzzle001Solution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzle001Solution.swift; sourceTree = "<group>"; };
+		P62000000000000000000007 /* Puzzle001SolutionContractTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzle001SolutionContractTests.swift; sourceTree = "<group>"; };
+		P63000000000000000000001 /* AccessibilityUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityUITests.swift; sourceTree = "<group>"; };
+		P64000000000000000000001 /* DeviceMatrixUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceMatrixUITests.swift; sourceTree = "<group>"; };
+		P71000000000000000000001 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		P71000000000000000000003 /* PrivacyManifestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyManifestTests.swift; sourceTree = "<group>"; };
 		Q70000000000000000000003 /* InputModeToggleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputModeToggleTests.swift; sourceTree = "<group>"; };
-		X14000000000000000000001 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
-		AB1800000000000000000001 /* SaveGameStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveGameStore.swift; sourceTree = "<group>"; };
-		AB1800000000000000000003 /* SaveGameStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveGameStoreTests.swift; sourceTree = "<group>"; };
-		Z16000000000000000000001 /* SoundService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundService.swift; sourceTree = "<group>"; };
-		Z16000000000000000000003 /* SoundServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundServiceTests.swift; sourceTree = "<group>"; };
-		B02300000000000000000001 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
-		B02300000000000000000003 /* HapticServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticServiceTests.swift; sourceTree = "<group>"; };
-		X14000000000000000000003 /* ThemePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemePicker.swift; sourceTree = "<group>"; };
-		X14000000000000000000005 /* SettingsStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStoreTests.swift; sourceTree = "<group>"; };
-		X14000000000000000000007 /* ThemePickerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemePickerTests.swift; sourceTree = "<group>"; };
 		R80000000000000000000001 /* GameToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameToolbar.swift; sourceTree = "<group>"; };
 		R80000000000000000000003 /* GameToolbarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameToolbarTests.swift; sourceTree = "<group>"; };
 		S90000000000000000000001 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		S90000000000000000000003 /* GameViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModelTests.swift; sourceTree = "<group>"; };
 		T10000000000000000000001 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		T10000000000000000000003 /* WinScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinScreen.swift; sourceTree = "<group>"; };
-		Y15000000000000000000001 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		Y15000000000000000000003 /* SettingsViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewTests.swift; sourceTree = "<group>"; };
-		AC1900000000000000000001 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		AC1900000000000000000003 /* HomeCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCatalog.swift; sourceTree = "<group>"; };
-		AC1900000000000000000005 /* HomeCatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCatalogTests.swift; sourceTree = "<group>"; };
-		AF2200000000000000000001 /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
-		AF2200000000000000000003 /* TutorialCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialCatalog.swift; sourceTree = "<group>"; };
-		AF2200000000000000000005 /* TutorialCatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialCatalogTests.swift; sourceTree = "<group>"; };
 		T10000000000000000000005 /* puzzle-001.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puzzle-001.json"; sourceTree = "<group>"; };
-		AD2000000000000000000001 /* puzzle-002.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puzzle-002.json"; sourceTree = "<group>"; };
-		AD2000000000000000000003 /* puzzle-003.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puzzle-003.json"; sourceTree = "<group>"; };
-		AD2000000000000000000005 /* puzzle-004.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puzzle-004.json"; sourceTree = "<group>"; };
-		AD2000000000000000000007 /* puzzle-005.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puzzle-005.json"; sourceTree = "<group>"; };
-		AD2000000000000000000009 /* puzzle-006.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puzzle-006.json"; sourceTree = "<group>"; };
-		AD200000000000000000000B /* puzzle-007.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puzzle-007.json"; sourceTree = "<group>"; };
-		AD200000000000000000000D /* puzzle-008.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puzzle-008.json"; sourceTree = "<group>"; };
-		AD200000000000000000000F /* puzzle-009.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puzzle-009.json"; sourceTree = "<group>"; };
 		U11000000000000000000001 /* WinScreenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinScreenTests.swift; sourceTree = "<group>"; };
 		V12000000000000000000001 /* AppLaunchConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLaunchConfiguration.swift; sourceTree = "<group>"; };
 		V12000000000000000000003 /* PuzzleLoadErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleLoadErrorView.swift; sourceTree = "<group>"; };
@@ -230,6 +231,14 @@
 		W13000000000000000000001 /* BoardBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardBuilder.swift; sourceTree = "<group>"; };
 		W13000000000000000000003 /* PuzzleSolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleSolver.swift; sourceTree = "<group>"; };
 		W13000000000000000000005 /* PuzzleIntegrityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleIntegrityTests.swift; sourceTree = "<group>"; };
+		X14000000000000000000001 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
+		X14000000000000000000003 /* ThemePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemePicker.swift; sourceTree = "<group>"; };
+		X14000000000000000000005 /* SettingsStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStoreTests.swift; sourceTree = "<group>"; };
+		X14000000000000000000007 /* ThemePickerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemePickerTests.swift; sourceTree = "<group>"; };
+		Y15000000000000000000001 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		Y15000000000000000000003 /* SettingsViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewTests.swift; sourceTree = "<group>"; };
+		Z16000000000000000000001 /* SoundService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundService.swift; sourceTree = "<group>"; };
+		Z16000000000000000000003 /* SoundServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundServiceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -279,6 +288,8 @@
 			isa = PBXGroup;
 			children = (
 				A10000000000000000000002 /* AnimalDokuApp.swift */,
+				F82000000000000000000003 /* AppFontRegistration.swift */,
+				F82000000000000000000005 /* Info.plist */,
 				V12000000000000000000001 /* AppLaunchConfiguration.swift */,
 				P62000000000000000000001 /* UITestReduceMotionModifier.swift */,
 				AE2100000000000000000001 /* LaunchScreen.storyboard */,
@@ -366,6 +377,7 @@
 		B20000000000000000000006 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F82000000000000000000001 /* VaselineExtra.ttf */,
 				B2000000000000000000000B /* Puzzles */,
 				E50000000000000000000005 /* Sounds */,
 			);
@@ -414,6 +426,7 @@
 			isa = PBXGroup;
 			children = (
 				N40000000000000000000001 /* CellView.swift */,
+				P83000000000000000000001 /* AnimalHeadView.swift */,
 				O50000000000000000000001 /* BoardView.swift */,
 				O50000000000000000000003 /* RegionColorMap.swift */,
 				P60000000000000000000001 /* RegionPattern.swift */,
@@ -486,19 +499,11 @@
 			path = Fixtures;
 			sourceTree = "<group>";
 		};
-		W13000000000000000000007 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				W13000000000000000000001 /* BoardBuilder.swift */,
-				W13000000000000000000003 /* PuzzleSolver.swift */,
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
 		B20000000000000000000010 /* UI */ = {
 			isa = PBXGroup;
 			children = (
 				N40000000000000000000003 /* CellViewTests.swift */,
+				P83000000000000000000003 /* AnimalHeadViewTests.swift */,
 				D40000000000000000000013 /* MotionTests.swift */,
 				O50000000000000000000005 /* BoardViewTests.swift */,
 				P60000000000000000000003 /* RegionPatternTests.swift */,
@@ -548,6 +553,15 @@
 				P62000000000000000000005 /* Puzzle001Solution.swift */,
 			);
 			path = Fixtures;
+			sourceTree = "<group>";
+		};
+		W13000000000000000000007 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				W13000000000000000000001 /* BoardBuilder.swift */,
+				W13000000000000000000003 /* PuzzleSolver.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -655,6 +669,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A10000000000000000000005 /* Assets.xcassets in Resources */,
+				F82000000000000000000002 /* VaselineExtra.ttf in Resources */,
 				AE2100000000000000000002 /* LaunchScreen.storyboard in Resources */,
 				P71000000000000000000002 /* PrivacyInfo.xcprivacy in Resources */,
 				E50000000000000000000006 /* Sounds in Resources */,
@@ -693,6 +708,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A10000000000000000000001 /* AnimalDokuApp.swift in Sources */,
+				F82000000000000000000004 /* AppFontRegistration.swift in Sources */,
 				A10000000000000000000003 /* ContentView.swift in Sources */,
 				D40000000000000000000002 /* Colors.swift in Sources */,
 				D40000000000000000000016 /* HighContrastEnvironment.swift in Sources */,
@@ -720,6 +736,7 @@
 				AA1700000000000000000002 /* TimerService.swift in Sources */,
 				L20000000000000000000002 /* HintService.swift in Sources */,
 				N40000000000000000000002 /* CellView.swift in Sources */,
+				P83000000000000000000002 /* AnimalHeadView.swift in Sources */,
 				O50000000000000000000002 /* BoardView.swift in Sources */,
 				O50000000000000000000004 /* RegionColorMap.swift in Sources */,
 				P60000000000000000000002 /* RegionPattern.swift in Sources */,
@@ -763,6 +780,7 @@
 				L20000000000000000000004 /* HintServiceTests.swift in Sources */,
 				M30000000000000000000002 /* TestPuzzleFactory.swift in Sources */,
 				N40000000000000000000004 /* CellViewTests.swift in Sources */,
+				P83000000000000000000004 /* AnimalHeadViewTests.swift in Sources */,
 				D40000000000000000000014 /* MotionTests.swift in Sources */,
 				O50000000000000000000006 /* BoardViewTests.swift in Sources */,
 				P60000000000000000000004 /* RegionPatternTests.swift in Sources */,
@@ -939,11 +957,15 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = SG7Q699XPH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = App/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Animal Doku";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_UIAppFonts = (
+					VaselineExtra.ttf,
+				);
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -968,11 +990,15 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = SG7Q699XPH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = App/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Animal Doku";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_UIAppFonts = (
+					VaselineExtra.ttf,
+				);
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

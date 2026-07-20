@@ -112,10 +112,34 @@ final class DesignSystemTests: XCTestCase {
         }
     }
 
-    func testHighContrastRegionPaletteHasDistinctEntries() {
-        XCTAssertEqual(AppColors.HighContrast.regionPalette.count, 8)
+    func testAccessibleRegionPaletteHexesAndMapping() {
+        let expected = [
+            "#0072B2", "#E69F00", "#009E73", "#D55E00",
+            "#56B4E9", "#CC79A7", "#F0E442", "#4D4D4D",
+        ]
+        XCTAssertEqual(AppColors.Accessible.regionHexes, expected)
         XCTAssertEqual(AppColors.regionPalette.count, 8)
-        XCTAssertNotEqual(
+        XCTAssertEqual(AppColors.HighContrast.regionPalette.count, 8)
+        XCTAssertEqual(AppColors.Accessible.accentExtras.count, 4)
+
+        for index in 0..<8 {
+            XCTAssertEqual(
+                AppColors.regionColor(at: index),
+                AppColors.Accessible.color(hex: expected[index])
+            )
+            XCTAssertEqual(
+                AppColors.regionColor(at: index, highContrast: true),
+                AppColors.regionColor(at: index, highContrast: false)
+            )
+        }
+
+        // Stable wrap for ids beyond the base eight.
+        XCTAssertEqual(AppColors.regionColor(at: 8), AppColors.regionColor(at: 0))
+    }
+
+    func testHighContrastRegionPaletteMatchesAccessibleDefault() {
+        XCTAssertEqual(AppColors.HighContrast.regionPalette.count, AppColors.regionPalette.count)
+        XCTAssertEqual(
             AppColors.regionColor(at: 0, highContrast: true),
             AppColors.regionColor(at: 0, highContrast: false)
         )

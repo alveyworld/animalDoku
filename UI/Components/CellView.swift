@@ -19,18 +19,17 @@ struct CellView: View {
     var isViolating: Bool = false
     /// When true (completed puzzle), cells announce as locked.
     var isBoardLocked: Bool = false
-    var animalIcon: Image = ThemeAsset.image(for: ThemeCatalog.defaultTheme)
-    var animalIconColor: Color = AppColors.primary
+    /// Theme for cartoon head art (P8.3).
+    var theme: Theme = ThemeCatalog.defaultTheme
     var selectionBorderColor: Color = AppColors.accent
     var onSingleTap: () -> Void = {}
     var onDoubleTap: () -> Void = {}
 
+    /// Incremented when this cell should play look-around (place → animal only).
+    @State private var lookAroundTrigger = 0
+
     private var reduceMotion: Bool {
         accessibilityReduceMotion || forceReduceMotion
-    }
-
-    private var resolvedIconColor: Color {
-        highContrast ? AppColors.resolvedPrimary(highContrast: true) : animalIconColor
     }
 
     private var resolvedSelectionColor: Color {
@@ -88,11 +87,17 @@ struct CellView: View {
                     .fill(resolvedErrorColor.opacity(highContrast ? 0.28 : 0.18))
             }
 
-            stateContent
-                .animation(Motion.cellStateAnimation(reduceMotion: reduceMotion), value: state)
-
+            // Selection / violation stroke behind content so animals can overflow over it.
             RoundedRectangle(cornerRadius: AppSpacing.cornerRadiusSmall)
                 .strokeBorder(borderColor, lineWidth: borderWidth)
+
+            stateContent
+                .animation(Motion.cellStateAnimation(reduceMotion: reduceMotion), value: state)
+                .onChange(of: state) { oldState, newState in
+                    if newState == .animal, oldState != .animal {
+                        lookAroundTrigger += 1
+                    }
+                }
         }
         .aspectRatio(1, contentMode: .fit)
     }
@@ -105,16 +110,17 @@ struct CellView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .accessibilityHidden(true)
         case .blocked:
-            BlockedMark(color: resolvedIconColor)
+            BlockedMark()
                 .transition(Motion.cellContentTransition(reduceMotion: reduceMotion))
         case .animal:
-            animalIcon
-                .resizable()
-                .scaledToFit()
-                .foregroundStyle(resolvedIconColor)
-                .padding(AppSpacing.xs)
-                .accessibilityHidden(true)
-                .transition(Motion.cellContentTransition(reduceMotion: reduceMotion))
+            AnimalHeadView(
+                theme: theme,
+                lookAroundTrigger: lookAroundTrigger,
+                reduceMotion: reduceMotion
+            )
+            .padding(0)
+            .transition(Motion.cellContentTransition(reduceMotion: reduceMotion))
+            .scaleEffect(1.2)
         }
     }
 
@@ -136,27 +142,32 @@ struct CellView: View {
 
 // MARK: - Blocked X mark
 
-/// Diagonal X stroke — shape-based, not color alone (GDD accessibility).
-private struct BlockedMark: View {
-    var color: Color = AppColors.primary
+/// Large white typographic mark (P8.2) — Vaseline Extra, nearly fills the cell.
+struct BlockedMark: View {
+    /// Capital X works best with the display font.
+    static let glyph = "X"
+    /// Preferred Font Book / family name for `Resources/VaselineExtra.ttf`.
+    static let fontName = "Vaseline Extra"
+    /// Alternate PostScript-style names tried at runtime.
+    static let fontNameCandidates = ["Vaseline Extra", "VaselineExtra"]
+    /// Font size as a fraction of the cell’s min edge (nearly fills the cell).
+    static let sizeScale: CGFloat = 1.0
 
     var body: some View {
         GeometryReader { geometry in
-            let inset = geometry.size.width * 0.22
-            let size = geometry.size
+            let side = min(geometry.size.width, geometry.size.height)
+            let fontSize = side * Self.sizeScale
+            let name = AppFontRegistration.resolvedFontName(candidates: Self.fontNameCandidates)
+                ?? Self.fontName
 
-            Path { path in
-                path.move(to: CGPoint(x: inset, y: inset))
-                path.addLine(to: CGPoint(x: size.width - inset, y: size.height - inset))
-                path.move(to: CGPoint(x: size.width - inset, y: inset))
-                path.addLine(to: CGPoint(x: inset, y: size.height - inset))
-            }
-            .stroke(
-                color,
-                style: StrokeStyle(lineWidth: 2.5, lineCap: .round)
-            )
+            Text(Self.glyph)
+                .font(.custom(name, size: fontSize))
+                .foregroundStyle(Color.white)
+                .minimumScaleFactor(0.5)
+                .lineLimit(1)
+                .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
+                .offset(x: 0, y:2)
         }
-        .padding(AppSpacing.xs)
         .accessibilityHidden(true)
     }
 }
@@ -257,7 +268,7 @@ private struct CellPreviewTile: View {
                 state: state,
                 isSelected: isSelected,
                 isViolating: isViolating,
-                animalIcon: ThemeAsset.image(for: "frogs")
+                theme: ThemeCatalog.frogs
             )
             .frame(width: TouchTarget.minimum, height: TouchTarget.minimum)
             .background(AppColors.regionColor(at: regionId))
@@ -311,7 +322,7 @@ private struct CellPreviewTile: View {
                     col: regionId,
                     regionId: regionId,
                     state: regionId.isMultiple(of: 2) ? .blocked : .animal,
-                    animalIcon: ThemeAsset.image(for: "frogs")
+                    theme: ThemeCatalog.frogs
                 )
                 .frame(width: TouchTarget.minimum, height: TouchTarget.minimum)
                 .background(AppColors.regionColor(at: regionId))

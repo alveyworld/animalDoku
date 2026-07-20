@@ -9,6 +9,7 @@ struct AnimalDokuApp: App {
     @State private var saveGameStore: SaveGameStore
 
     init() {
+        AppFontRegistration.registerBundledFonts()
         let settings = SettingsStore()
         let saves = SaveGameStore()
         // UI tests deep-link into a puzzle and must start from an empty board.
@@ -30,6 +31,10 @@ struct AnimalDokuApp: App {
                 .environment(saveGameStore)
                 .environment(\.highContrast, settingsStore.highContrastEnabled)
                 .modifier(UITestReduceMotionModifier(enabled: configuration.reduceMotion))
+                // App chrome is light-only (GDD); avoid a black window under NavigationStack in Dark Mode.
+                .preferredColorScheme(.light)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(AppColors.background.ignoresSafeArea())
         }
     }
 }

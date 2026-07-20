@@ -17,7 +17,7 @@ Living conformance record for [GDD §Accessibility](../AnimalDoku_Game_Design_Do
 | Contrast ≥4.5:1 (default) | Unit tests | **PASS** | `DesignSystemTests.testDefaultTextMeetsWCAGAAContrast` after P6.3 token darkening |
 | Contrast ≥4.5:1 (high contrast) | Unit tests | **PASS** | `testHighContrastTextMeetsWCAGAAContrast` |
 | Theme icon contrast | Computed ratios | **PASS** | Frogs/Dogs/Foxes primaries ≥4.5:1 on background (Foxes `#9B4518`) |
-| Colorblind regions | Patterns + tests | **PASS** | Distinct `RegionPatternStyle` per region id; cell borders; blocked = X shape |
+| Colorblind regions | Solid accessible palette + borders | **PASS** | P8.1 `AppColors.Accessible` region fills by id; hatch overlays removed; cell borders retained |
 | Reduce Motion | Unit + launch arg | **PASS** | `Motion` helpers nil out; Cell/Win/Tutorial honor system + `-uiTestReduceMotion` |
 | Sound toggle | Unit tests | **PASS** | `SoundService` / `GameViewModel` tests — disabled service plays nothing |
 | VoiceOver focus order | UI structure | **PASS** | Header → gesture hint → board (row-major cells) → toolbar; win sheet takes focus |
@@ -25,7 +25,7 @@ Living conformance record for [GDD §Accessibility](../AnimalDoku_Game_Design_Do
 
 ## Decisions (open questions)
 
-1. **Region phrasing:** Announce **region number** only (`Region 3`), not color name — color is not the sole cue (patterns + borders).
+1. **Region phrasing:** Announce **region number** only (`Region 3`), not color name — color is paired with borders (P8.1 solid palette; hatch patterns retired from the board).
 2. **CI gate:** Report-first via `AccessibilityUITests`; treat failures as release blockers once stable on CI.
 
 ## Automated audit exceptions

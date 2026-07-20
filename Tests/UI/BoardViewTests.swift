@@ -17,29 +17,33 @@ final class BoardViewTests: XCTestCase {
         XCTAssertNil(RegionColorMap.parseHex("#GGGGGG"))
     }
 
-    func testRegionColorMapUsesPuzzleHexColors() {
+    func testRegionColorMapUsesAccessibleTokensByRegionId() {
         let puzzle = TestPuzzleFactory.miniPuzzle()
         let colorMap = RegionColorMap(regions: puzzle.regions)
 
-        XCTAssertNotNil(colorMap.color(for: 0))
-        XCTAssertNotNil(colorMap.color(for: 3))
+        XCTAssertEqual(colorMap.color(for: 0), AppColors.regionColor(at: 0))
+        XCTAssertEqual(colorMap.color(for: 3), AppColors.regionColor(at: 3))
+        // Puzzle JSON pastels must not win over the accessible palette (P8.1).
+        XCTAssertNotEqual(
+            colorMap.color(for: 0),
+            RegionColorMap.parseHex(puzzle.regions[0].color)
+        )
     }
 
     func testRegionColorMapFallsBackForUnknownRegion() {
         let colorMap = RegionColorMap(regions: [])
-        XCTAssertNotNil(colorMap.color(for: 99))
+        XCTAssertEqual(colorMap.color(for: 99), AppColors.regionColor(at: 99))
     }
 
-    func testRegionColorMapUsesHighContrastPaletteWhenEnabled() {
+    func testRegionColorMapHighContrastUsesAccessiblePalette() {
         let puzzle = TestPuzzleFactory.miniPuzzle()
         let defaultMap = RegionColorMap(regions: puzzle.regions, highContrast: false)
         let contrastMap = RegionColorMap(regions: puzzle.regions, highContrast: true)
 
-        XCTAssertNotEqual(defaultMap.color(for: 0), contrastMap.color(for: 0))
-        XCTAssertEqual(
-            contrastMap.color(for: 0),
-            AppColors.regionColor(at: 0, highContrast: true)
-        )
+        XCTAssertEqual(defaultMap.color(for: 0), AppColors.regionColor(at: 0, highContrast: false))
+        XCTAssertEqual(contrastMap.color(for: 0), AppColors.regionColor(at: 0, highContrast: true))
+        // Same accessible hues; HC distinction is chrome/borders (P8.1).
+        XCTAssertEqual(defaultMap.color(for: 0), contrastMap.color(for: 0))
     }
 
     func testCellSizeMeetsTouchTargetOnIPhoneSE() {

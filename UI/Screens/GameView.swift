@@ -59,7 +59,6 @@ struct GameView: View {
                 selectedPosition: viewModel.selectedPosition,
                 isBoardLocked: viewModel.isCompleted,
                 theme: theme,
-                animalIcon: ThemeAsset.image(for: theme),
                 onCellSingleTap: { viewModel.handleCellSingleTap(at: $0) },
                 onCellDoubleTap: { viewModel.handleCellDoubleTap(at: $0) },
                 onMarkDragBegan: { viewModel.beginMarkDrag(at: $0) },

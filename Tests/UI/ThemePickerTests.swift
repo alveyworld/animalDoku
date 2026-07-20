@@ -47,11 +47,15 @@ final class ThemePickerTests: XCTestCase {
         XCTAssertEqual(store.selectedThemeId, "foxes")
     }
 
-    func testCatalogListsThreeThemesForPicker() {
-        XCTAssertEqual(ThemeCatalog.all.count, 3)
+    func testCatalogListsAllThemesForPicker() {
+        XCTAssertEqual(ThemeCatalog.all.count, 15)
         XCTAssertEqual(
             ThemeCatalog.all.map(\.displayName),
-            ["Frogs", "Dogs", "Foxes"]
+            [
+                "Frogs", "Dogs", "Foxes",
+                "Bears", "Tigers", "Camels", "Elephants", "Rhinos", "Monkeys",
+                "Parrots", "Penguins", "Gorillas", "Zebras", "Cows", "Alligators",
+            ]
         )
     }
 }

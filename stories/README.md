@@ -111,6 +111,14 @@ Actionable developer stories derived from [IMPLEMENTATION_ROADMAP.md](../IMPLEME
 | [P7.2](phase-7/P7.2-testflight-beta.md) | TestFlight beta | v1.1 | S | ✅ |
 | [P7.3](phase-7/P7.3-app-store-submission.md) | App Store submission | v1.1 | S | ⬜ |
 
+### Phase 8 — Look and Feel
+
+| ID | Story | Release | Effort | Status |
+|----|-------|---------|--------|--------|
+| [P8.1](phase-8/P8.1-bright-accessible-colors.md) | Bright colors, higher contrast, no pattern lines | v1.1 | S | ✅ |
+| [P8.2](phase-8/P8.2-bold-mark-xs.md) | Bigger bolder white mark Xs | v1.1 | XS | ✅ |
+| [P8.3](phase-8/P8.3-cartoon-animal-heads.md) | Cartoon animal heads + look-around | v1.1 | M | ✅ |
+
 ## Dependency graph (simplified)
 
 ```text
@@ -121,6 +129,9 @@ P3.2,P3.8 → P3.11,P3.12 → P3.13 → P3.14 → P3.15,P3.16
 P4.1 → P4.2 → P4.4; P4.3 → P4.4,P4.5
 P3.14 → P6.2; P2.8 → P6.1
 P3.11,P5.7 → P6.5
+P1.4,P3.9,P3.10,P5.3 → P8.1
+P3.8,P8.1 → P8.2
+P4.1,P3.8,P5.1 → P8.3
 ```
 
 ## Effort key

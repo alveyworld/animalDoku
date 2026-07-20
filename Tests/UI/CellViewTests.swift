@@ -54,4 +54,16 @@ final class CellViewTests: XCTestCase {
         XCTAssertTrue(traits.contains(.isSelected))
         XCTAssertTrue(traits.contains(.isButton))
     }
+
+    func testBlockedMarkUsesWhiteTypographicX() {
+        XCTAssertEqual(BlockedMark.glyph, "X")
+        XCTAssertEqual(BlockedMark.fontName, "Vaseline Extra")
+        XCTAssertEqual(BlockedMark.sizeScale, 1.0, accuracy: 0.001)
+    }
+
+    func testBlockedMarkActionNamesUnchanged() {
+        XCTAssertEqual(CellViewAccessibility.markActionName(for: .blocked), "Clear mark")
+        XCTAssertEqual(CellViewAccessibility.markActionName(for: .empty), "Mark")
+        XCTAssertEqual(CellViewAccessibility.placeActionName(for: .blocked), "Place animal")
+    }
 }

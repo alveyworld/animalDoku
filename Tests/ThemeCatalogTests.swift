@@ -2,9 +2,16 @@ import XCTest
 @testable import AnimalDoku
 
 final class ThemeCatalogTests: XCTestCase {
-    func testAllContainsExactlyThreeMVPThemes() {
-        XCTAssertEqual(ThemeCatalog.all.count, 3)
-        XCTAssertEqual(ThemeCatalog.all.map(\.id), ["frogs", "dogs", "foxes"])
+    func testAllContainsExpectedThemesInStableOrder() {
+        XCTAssertEqual(ThemeCatalog.all.count, 15)
+        XCTAssertEqual(
+            ThemeCatalog.all.map(\.id),
+            [
+                "frogs", "dogs", "foxes",
+                "bears", "tigers", "camels", "elephants", "rhinos", "monkeys",
+                "parrots", "penguins", "gorillas", "zebras", "cows", "alligators",
+            ]
+        )
     }
 
     func testDefaultThemeIsFrogs() {
@@ -22,6 +29,13 @@ final class ThemeCatalogTests: XCTestCase {
         XCTAssertEqual(dogs.displayName, "Dogs")
     }
 
+    func testExpandedThemeLookup() {
+        let bears = ThemeCatalog.theme(id: "bears")
+        XCTAssertEqual(bears.animal, "bear")
+        XCTAssertEqual(bears.icon, "theme-bears-icon")
+        XCTAssertEqual(bears.displayName, "Bears")
+    }
+
     func testUnknownThemeFallsBackToFrogs() {
         XCTAssertEqual(ThemeCatalog.theme(id: "birds").id, "frogs")
         XCTAssertEqual(ThemeCatalog.theme(id: "").id, "frogs")
@@ -31,8 +45,8 @@ final class ThemeCatalogTests: XCTestCase {
         let primaries = Set(ThemeCatalog.all.map(\.primaryColor))
         let accents = Set(ThemeCatalog.all.map(\.accentColor))
 
-        XCTAssertEqual(primaries.count, 3)
-        XCTAssertEqual(accents.count, 3)
+        XCTAssertEqual(primaries.count, ThemeCatalog.all.count)
+        XCTAssertEqual(accents.count, ThemeCatalog.all.count)
     }
 
     func testEachThemeHasNonEmptyIconAndAnimal() {

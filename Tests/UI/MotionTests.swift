@@ -45,4 +45,9 @@ final class MotionTests: XCTestCase {
         XCTAssertGreaterThan(Motion.winEntranceScale, 0.9)
         XCTAssertLessThan(Motion.winEntranceScale, 1.0)
     }
+
+    func testLookAroundDurationIsConfigured() {
+        XCTAssertGreaterThanOrEqual(Motion.lookAroundDuration, 0.8)
+        XCTAssertLessThanOrEqual(Motion.lookAroundDuration, 1.5)
+    }
 }

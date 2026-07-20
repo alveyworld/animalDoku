@@ -1,6 +1,7 @@
 import XCTest
 @testable import AnimalDoku
 
+/// Pattern style catalog tests (P3.10). Board rendering no longer applies overlays (P8.1).
 final class RegionPatternTests: XCTestCase {
     func testForRegionMapsDeterministically() {
         XCTAssertEqual(RegionPatternStyle.forRegion(0), .dots)
@@ -21,5 +22,11 @@ final class RegionPatternTests: XCTestCase {
 
     func testPatternCatalogHasAtLeastEightStyles() {
         XCTAssertGreaterThanOrEqual(RegionPatternStyle.allCases.count, 8)
+    }
+
+    func testBoardUsesSolidAccessibleFillsWithoutRequiringPatterns() {
+        // Regression guard for P8.1 policy: region identity comes from the palette.
+        XCTAssertEqual(AppColors.Accessible.regionHexes.count, 8)
+        XCTAssertEqual(Set(AppColors.Accessible.regionHexes).count, 8)
     }
 }

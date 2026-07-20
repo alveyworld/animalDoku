@@ -17,13 +17,16 @@ struct ThemePicker: View {
                     .accessibilityAddTraits(.isHeader)
             }
 
-            HStack(spacing: AppSpacing.sm) {
-                ForEach(ThemeCatalog.all) { theme in
-                    ThemePickerOption(
-                        theme: theme,
-                        isSelected: selectedThemeId == theme.id,
-                        onSelect: { selectedThemeId = theme.id }
-                    )
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: AppSpacing.sm) {
+                    ForEach(ThemeCatalog.all) { theme in
+                        ThemePickerOption(
+                            theme: theme,
+                            isSelected: selectedThemeId == theme.id,
+                            onSelect: { selectedThemeId = theme.id }
+                        )
+                        .frame(width: 76)
+                    }
                 }
             }
             .accessibilityElement(children: .contain)
@@ -45,8 +48,8 @@ private struct ThemePickerOption: View {
                 ThemeAsset.image(for: theme)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 32, height: 32)
-                    .foregroundStyle(theme.resolvedPrimaryColor)
+                    .frame(width: 36, height: 36)
+                    .modifier(ThemeIconTint(theme: theme))
 
                 Text(theme.displayName)
                     .font(AppTypography.caption)
@@ -56,7 +59,8 @@ private struct ThemePickerOption: View {
                     .multilineTextAlignment(.center)
             }
             .frame(maxWidth: .infinity)
-            .padding(AppSpacing.sm)
+            .padding(.vertical, AppSpacing.sm)
+            .padding(.horizontal, AppSpacing.xs)
             .background(AppColors.surface)
             .clipShape(RoundedRectangle(cornerRadius: AppSpacing.cornerRadiusSmall))
             .overlay(
@@ -83,6 +87,19 @@ enum ThemePickerAccessibility {
             "\(theme.displayName), selected"
         } else {
             theme.displayName
+        }
+    }
+}
+
+/// Tints SF Symbol fallbacks only — cartoon heads keep original colors (P8.3).
+private struct ThemeIconTint: ViewModifier {
+    let theme: Theme
+
+    func body(content: Content) -> some View {
+        if ThemeAsset.hasRasterIcon(for: theme) {
+            content
+        } else {
+            content.foregroundStyle(theme.resolvedPrimaryColor)
         }
     }
 }

@@ -1,73 +1,119 @@
 import SwiftUI
 
 /// Semantic color tokens for Animal Doku.
-/// GDD: soft, minimal UI with pastel colors.
+///
+/// Region fills use the Phase 8 accessible palette (P8.1) — bright, solid colors
+/// with no hatch/pattern overlays. Puzzle JSON hex is ignored at render time.
 enum AppColors {
-    // MARK: - Default (pastel)
+    // MARK: - Chrome
 
-    /// Main screen background — warm cream pastel.
+    /// Main screen background — warm cream.
     static let background = Color(red: 0.98, green: 0.97, blue: 0.95)
 
     /// Cards, sheets, and board surface.
     static let surface = Color(red: 1.0, green: 1.0, blue: 1.0)
 
-    /// Primary text and icons.
-    static let primary = Color(red: 0.30, green: 0.38, blue: 0.48)
+    /// Primary text and board icons (dark for contrast on bright region fills).
+    static let primary = Color(red: 0.20, green: 0.22, blue: 0.25)
 
-    /// Interactive accents — toolbar highlights, selected states.
-    /// Tuned for ≥4.5:1 on background/surface (P6.3).
-    static let accent = Color(red: 0.18, green: 0.45, blue: 0.34)
+    /// Interactive accents — toolbar highlights, selected states (≥4.5:1 on background).
+    static let accent = Accessible.blue
 
     /// Rule violations and error states.
     static let error = Color(red: 0.72, green: 0.16, blue: 0.16)
 
-    /// Subtle dividers and grid lines.
-    static let border = Color(red: 0.82, green: 0.84, blue: 0.86)
+    /// Cell / region outline (stronger after P8.1 so structure reads without hatch lines).
+    static let border = Color(red: 0.45, green: 0.47, blue: 0.50)
 
     /// Secondary labels and hints.
-    static let secondary = Color(red: 0.38, green: 0.41, blue: 0.45)
+    static let secondary = Color(red: 0.32, green: 0.34, blue: 0.38)
 
-    /// Pattern strokes for colorblind region overlays (P3.10).
+    /// Legacy pattern stroke token (P3.10). Board no longer draws patterns (P8.1).
     static let patternOverlay = Color.black
+
+    // MARK: - Accessible palette (P8.1)
+
+    /// Okabe–Ito–style accessible colors for regions and accents.
+    enum Accessible {
+        static let blueHex = "#0072B2"
+        static let orangeHex = "#E69F00"
+        static let greenHex = "#009E73"
+        static let vermillionHex = "#D55E00"
+        static let skyBlueHex = "#56B4E9"
+        static let reddishPurpleHex = "#CC79A7"
+        static let yellowHex = "#F0E442"
+        static let darkGrayHex = "#4D4D4D"
+        static let brightPinkHex = "#FF4DA6"
+        static let tealHex = "#00BFC4"
+        static let oliveHex = "#7CAE00"
+        static let violetHex = "#8B5CF6"
+
+        static let blue = color(hex: blueHex)
+        static let orange = color(hex: orangeHex)
+        static let green = color(hex: greenHex)
+        static let vermillion = color(hex: vermillionHex)
+        static let skyBlue = color(hex: skyBlueHex)
+        static let reddishPurple = color(hex: reddishPurpleHex)
+        static let yellow = color(hex: yellowHex)
+        static let darkGray = color(hex: darkGrayHex)
+        static let brightPink = color(hex: brightPinkHex)
+        static let teal = color(hex: tealHex)
+        static let olive = color(hex: oliveHex)
+        static let violet = color(hex: violetHex)
+
+        /// Stable mapping for region ids 0…7 on 8×8 boards.
+        static let regionHexes: [String] = [
+            blueHex,
+            orangeHex,
+            greenHex,
+            vermillionHex,
+            skyBlueHex,
+            reddishPurpleHex,
+            yellowHex,
+            darkGrayHex,
+        ]
+
+        static let regionPalette: [Color] = regionHexes.map(color(hex:))
+
+        /// Extra accents for larger boards / future chrome (not used by 8×8 regions).
+        static let accentExtras: [Color] = [brightPink, teal, olive, violet]
+
+        /// Parse `#RRGGBB` without calling `RegionColorMap` (avoids static init cycles).
+        static func color(hex: String) -> Color {
+            var sanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+            if sanitized.hasPrefix("#") {
+                sanitized.removeFirst()
+            }
+            guard sanitized.count == 6, let value = UInt64(sanitized, radix: 16) else {
+                return .gray
+            }
+            return Color(
+                red: Double((value >> 16) & 0xFF) / 255.0,
+                green: Double((value >> 8) & 0xFF) / 255.0,
+                blue: Double(value & 0xFF) / 255.0
+            )
+        }
+    }
 
     // MARK: - Region palette
 
-    /// Pastel region fills for the 8×8 board. Paired with borders/patterns for colorblind support (GDD accessibility).
-    static let regionPalette: [Color] = [
-        Color(red: 0.85, green: 0.92, blue: 0.98), // sky
-        Color(red: 0.92, green: 0.88, blue: 0.98), // lavender
-        Color(red: 0.88, green: 0.96, blue: 0.90), // mint
-        Color(red: 0.98, green: 0.90, blue: 0.88), // peach
-        Color(red: 0.98, green: 0.95, blue: 0.82), // butter
-        Color(red: 0.90, green: 0.94, blue: 0.98), // periwinkle
-        Color(red: 0.94, green: 0.90, blue: 0.96), // lilac
-        Color(red: 0.88, green: 0.96, blue: 0.96), // aqua
-    ]
+    /// Board region fills — accessible solid colors by `regionId` (P8.1).
+    static let regionPalette: [Color] = Accessible.regionPalette
 
     // MARK: - High contrast
 
-    /// High-contrast variants for accessibility toggle (P5.3).
-    /// GDD: increased border weight; text/icon contrast ratio ≥ 4.5:1.
+    /// High-contrast chrome (P5.3). Region fills stay on the accessible palette (P8.1).
     enum HighContrast {
         static let background = Color.white
         static let surface = Color(white: 0.95)
         static let primary = Color.black
-        static let accent = Color(red: 0.0, green: 0.35, blue: 0.55)
+        static let accent = Accessible.blue
         static let error = Color(red: 0.75, green: 0.0, blue: 0.0)
         static let border = Color.black
         static let secondary = Color(white: 0.25)
 
-        /// Stronger region fills with higher saturation for contrast mode.
-        static let regionPalette: [Color] = [
-            Color(red: 0.70, green: 0.85, blue: 1.0),
-            Color(red: 0.80, green: 0.70, blue: 1.0),
-            Color(red: 0.65, green: 0.90, blue: 0.70),
-            Color(red: 1.0, green: 0.75, blue: 0.70),
-            Color(red: 1.0, green: 0.90, blue: 0.55),
-            Color(red: 0.70, green: 0.80, blue: 1.0),
-            Color(red: 0.85, green: 0.70, blue: 0.95),
-            Color(red: 0.65, green: 0.90, blue: 0.90),
-        ]
+        /// Same accessible hues as default; distinction comes from chrome/borders.
+        static let regionPalette: [Color] = Accessible.regionPalette
 
         /// Border stroke width for cells and regions in high contrast mode.
         static let borderWeight: CGFloat = 3.0
@@ -139,16 +185,16 @@ enum AppColors {
         static let highContrastPrimary = ContrastRGB(red: 0, green: 0, blue: 0)
         static let highContrastBackground = ContrastRGB(red: 1, green: 1, blue: 1)
         static let highContrastSecondary = ContrastRGB(red: 0.25, green: 0.25, blue: 0.25)
-        static let highContrastAccent = ContrastRGB(red: 0.0, green: 0.35, blue: 0.55)
+        static let highContrastAccent = ContrastRGB(red: 0.0, green: 0.447, blue: 0.698) // #0072B2
         static let highContrastError = ContrastRGB(red: 0.75, green: 0.0, blue: 0.0)
         static let highContrastSurface = ContrastRGB(red: 0.95, green: 0.95, blue: 0.95)
 
-        // Default (pastel) token RGB — keep in sync with AppColors above.
+        // Default chrome RGB — keep in sync with AppColors above.
         static let defaultBackground = ContrastRGB(red: 0.98, green: 0.97, blue: 0.95)
         static let defaultSurface = ContrastRGB(red: 1.0, green: 1.0, blue: 1.0)
-        static let defaultPrimary = ContrastRGB(red: 0.30, green: 0.38, blue: 0.48)
-        static let defaultSecondary = ContrastRGB(red: 0.38, green: 0.41, blue: 0.45)
-        static let defaultAccent = ContrastRGB(red: 0.18, green: 0.45, blue: 0.34)
+        static let defaultPrimary = ContrastRGB(red: 0.20, green: 0.22, blue: 0.25)
+        static let defaultSecondary = ContrastRGB(red: 0.32, green: 0.34, blue: 0.38)
+        static let defaultAccent = ContrastRGB(red: 0.0, green: 0.447, blue: 0.698) // #0072B2
         static let defaultError = ContrastRGB(red: 0.72, green: 0.16, blue: 0.16)
     }
 }
@@ -184,6 +230,13 @@ private struct ColorTokenSwatch: View {
             ColorTokenSwatch(name: "primary", color: AppColors.primary)
             ColorTokenSwatch(name: "accent", color: AppColors.accent)
             ColorTokenSwatch(name: "error", color: AppColors.error)
+
+            Text("Accessible regions")
+                .font(AppTypography.title)
+                .padding(.top, AppSpacing.sm)
+            ForEach(Array(AppColors.Accessible.regionHexes.enumerated()), id: \.offset) { index, hex in
+                ColorTokenSwatch(name: "region \(index) \(hex)", color: AppColors.regionColor(at: index))
+            }
 
             Text("High Contrast")
                 .font(AppTypography.title)

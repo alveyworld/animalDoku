@@ -1,6 +1,9 @@
 import SwiftUI
 
-/// Maps puzzle region IDs to SwiftUI colors from hex strings in puzzle JSON.
+/// Maps puzzle region IDs to SwiftUI colors.
+///
+/// P8.1: fills come from `AppColors` accessible tokens by `regionId`.
+/// Puzzle JSON `region.color` hex is ignored so the catalog stays one source of truth.
 struct RegionColorMap {
     private let colorsByRegionId: [Int: Color]
     private let highContrast: Bool
@@ -9,11 +12,7 @@ struct RegionColorMap {
         self.highContrast = highContrast
         var map: [Int: Color] = [:]
         for region in regions {
-            if highContrast {
-                map[region.id] = AppColors.regionColor(at: region.id, highContrast: true)
-            } else {
-                map[region.id] = Self.parseHex(region.color) ?? AppColors.regionColor(at: region.id)
-            }
+            map[region.id] = AppColors.regionColor(at: region.id, highContrast: highContrast)
         }
         colorsByRegionId = map
     }
@@ -23,7 +22,7 @@ struct RegionColorMap {
             ?? AppColors.regionColor(at: regionId, highContrast: highContrast)
     }
 
-    /// Parses `#RRGGBB` hex strings into SwiftUI colors.
+    /// Parses `#RRGGBB` hex strings into SwiftUI colors (tests / token helpers).
     static func parseHex(_ hex: String) -> Color? {
         var sanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
         if sanitized.hasPrefix("#") {
