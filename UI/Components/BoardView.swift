@@ -7,17 +7,38 @@ import SwiftUI
 /// Padding tightens on narrow screens so each cell can stay ≥ 44 pt (GDD accessibility).
 ///
 /// Region colorblind patterns (P3.10) render between the region fill and `CellView`.
+///
+/// Interaction (P6.5): single tap marks, double tap places/removes; drag paints marks (P5.7).
 struct BoardView: View {
+    @Environment(\.highContrast) private var highContrast
+
     let puzzle: Puzzle
     let cells: [Cell]
     let validationResult: ValidationResult
     var selectedPosition: Position? = nil
     var isBoardLocked: Bool = false
-    var animalIcon: Image = ThemeAsset.image(for: "frogs")
-    var onCellTap: (Position) -> Void = { _ in }
+    var theme: Theme = ThemeCatalog.defaultTheme
+    var animalIcon: Image = ThemeAsset.image(for: ThemeCatalog.defaultTheme)
+    var onCellSingleTap: (Position) -> Void = { _ in }
+    var onCellDoubleTap: (Position) -> Void = { _ in }
+    var onMarkDragBegan: (Position) -> Void = { _ in }
+    var onMarkDragMoved: (Position) -> Void = { _ in }
+    var onMarkDragEnded: () -> Void = {}
+
+    @State private var isMarkDragging = false
+    /// Swallow cell taps that fire immediately after a drag ends.
+    @State private var suppressCellTaps = false
 
     private var regionColors: RegionColorMap {
-        RegionColorMap(regions: puzzle.regions)
+        RegionColorMap(regions: puzzle.regions, highContrast: highContrast)
+    }
+
+    private var iconColor: Color {
+        highContrast ? AppColors.resolvedPrimary(highContrast: true) : theme.resolvedPrimaryColor
+    }
+
+    private var selectionColor: Color {
+        highContrast ? AppColors.resolvedAccent(highContrast: true) : theme.resolvedAccentColor
     }
 
     var body: some View {
@@ -42,11 +63,57 @@ struct BoardView: View {
             .padding(padding)
             .frame(width: geometry.size.width, height: geometry.size.width, alignment: .center)
             .opacity(isBoardLocked ? 0.85 : 1)
+            .simultaneousGesture(markDragGesture(
+                boardWidth: geometry.size.width,
+                padding: padding,
+                cellSize: cellSize
+            ))
+            .onChange(of: isBoardLocked) { _, locked in
+                if locked {
+                    isMarkDragging = false
+                    onMarkDragEnded()
+                }
+            }
         }
         .aspectRatio(1, contentMode: .fit)
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Puzzle board")
         .accessibilityIdentifier("gameBoard")
+    }
+
+    private func markDragGesture(
+        boardWidth: CGFloat,
+        padding: CGFloat,
+        cellSize: CGFloat
+    ) -> some Gesture {
+        DragGesture(minimumDistance: 10, coordinateSpace: .local)
+            .onChanged { value in
+                guard !isBoardLocked else { return }
+                guard let position = BoardLayout.position(
+                    at: value.location,
+                    boardWidth: boardWidth,
+                    padding: padding,
+                    cellSize: cellSize,
+                    size: puzzle.size
+                ) else { return }
+
+                if isMarkDragging {
+                    onMarkDragMoved(position)
+                } else {
+                    isMarkDragging = true
+                    suppressCellTaps = true
+                    onMarkDragBegan(position)
+                }
+            }
+            .onEnded { _ in
+                guard isMarkDragging else { return }
+                isMarkDragging = false
+                onMarkDragEnded()
+                Task { @MainActor in
+                    try? await Task.sleep(nanoseconds: 80_000_000)
+                    suppressCellTaps = false
+                }
+            }
     }
 
     @ViewBuilder
@@ -60,24 +127,36 @@ struct BoardView: View {
             state: cell.state,
             isSelected: selectedPosition == position,
             isViolating: isViolating(at: position),
+            isBoardLocked: isBoardLocked,
             animalIcon: animalIcon,
-            onTap: { onCellTap(position) }
+            animalIconColor: iconColor,
+            selectionBorderColor: selectionColor,
+            onSingleTap: {
+                guard !suppressCellTaps, !isMarkDragging else { return }
+                onCellSingleTap(position)
+            },
+            onDoubleTap: {
+                guard !suppressCellTaps, !isMarkDragging else { return }
+                onCellDoubleTap(position)
+            }
         )
         .frame(width: cellSize, height: cellSize)
         .background {
             ZStack {
                 regionColors.color(for: cell.regionId)
-                RegionPattern(regionId: cell.regionId)
+                RegionPattern(regionId: cell.regionId, highContrast: highContrast)
             }
             .allowsHitTesting(false)
         }
         .clipShape(RoundedRectangle(cornerRadius: AppSpacing.cornerRadiusSmall))
         .overlay(
             RoundedRectangle(cornerRadius: AppSpacing.cornerRadiusSmall)
-                .strokeBorder(AppColors.border.opacity(0.45), lineWidth: AppSpacing.borderWeight)
+                .strokeBorder(
+                    AppColors.resolvedBorder(highContrast: highContrast).opacity(highContrast ? 1 : 0.45),
+                    lineWidth: AppColors.borderWeight(highContrast: highContrast)
+                )
                 .allowsHitTesting(false)
         )
-        .accessibilityIdentifier("cell_\(cell.row)_\(cell.col)")
     }
 
     private func isViolating(at position: Position) -> Bool {
@@ -102,6 +181,32 @@ enum BoardLayout {
 
     static func minimumWidth(for size: Int) -> CGFloat {
         CGFloat(size) * TouchTarget.minimum + CGFloat(size - 1) * AppSpacing.cellGap
+    }
+
+    /// Maps a point in board-local coordinates (including padding) to a cell.
+    static func position(
+        at point: CGPoint,
+        boardWidth: CGFloat,
+        padding: CGFloat,
+        cellSize: CGFloat,
+        size: Int,
+        gap: CGFloat = AppSpacing.cellGap
+    ) -> Position? {
+        let x = point.x - padding
+        let y = point.y - padding
+        guard x >= 0, y >= 0 else { return nil }
+
+        let stride = cellSize + gap
+        let col = Int(floor(x / stride))
+        let row = Int(floor(y / stride))
+        guard (0..<size).contains(row), (0..<size).contains(col) else { return nil }
+
+        let localX = x - CGFloat(col) * stride
+        let localY = y - CGFloat(row) * stride
+        guard localX <= cellSize, localY <= cellSize else { return nil }
+
+        _ = boardWidth
+        return Position(row: row, col: col)
     }
 }
 

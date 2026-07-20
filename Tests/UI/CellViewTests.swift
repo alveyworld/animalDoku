@@ -1,4 +1,5 @@
 import XCTest
+import SwiftUI
 @testable import AnimalDoku
 
 final class CellViewTests: XCTestCase {
@@ -33,5 +34,24 @@ final class CellViewTests: XCTestCase {
             isViolating: false
         )
         XCTAssertEqual(label, "Row 6, Column 1, Region 0, blocked")
+    }
+
+    func testAccessibilityLabelIncludesSelectedAndLocked() {
+        let label = CellViewAccessibility.label(
+            row: 1,
+            col: 1,
+            regionId: 0,
+            state: .empty,
+            isViolating: false,
+            isSelected: true,
+            isBoardLocked: true
+        )
+        XCTAssertEqual(label, "Row 2, Column 2, Region 0, empty, selected, locked")
+    }
+
+    func testAccessibilityTraitsIncludeSelected() {
+        let traits = CellViewAccessibility.traits(isSelected: true, isBoardLocked: false)
+        XCTAssertTrue(traits.contains(.isSelected))
+        XCTAssertTrue(traits.contains(.isButton))
     }
 }

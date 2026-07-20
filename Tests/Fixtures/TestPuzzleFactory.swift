@@ -84,9 +84,8 @@ enum GameSessionTestHelpers {
     }
 
     static func solveViaPlacements(_ session: GameSession) {
-        session.inputMode = .place
         for position in session.puzzle.solution {
-            session.tap(at: position)
+            session.placeOrRemove(at: position)
         }
     }
 }

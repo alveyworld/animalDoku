@@ -1,33 +1,83 @@
 import SwiftUI
 
-/// Root content view: loads the launch puzzle and presents `GameView`.
+/// Root content view: Home (v1.1) or direct Game for UI tests / rollback.
 struct ContentView: View {
+    @Environment(SaveGameStore.self) private var saveStore
+    @Environment(SettingsStore.self) private var settings
     private let configuration: AppLaunchConfiguration
-    private let puzzleResult: Result<Puzzle, PuzzleLoaderError>
+    private let catalog: [Puzzle]
+    private let directPuzzleResult: Result<Puzzle, PuzzleLoaderError>?
+
+    @State private var showTutorial = false
 
     init(configuration: AppLaunchConfiguration = .current) {
         self.configuration = configuration
         let loader = PuzzleLoader()
-        do {
-            puzzleResult = .success(try loader.load(named: configuration.puzzleName))
-        } catch let error as PuzzleLoaderError {
-            puzzleResult = .failure(error)
-        } catch {
-            puzzleResult = .failure(.decodingFailed(error.localizedDescription))
+        catalog = HomeCatalog.playable(loader.loadAvailablePuzzles())
+
+        if configuration.launchesToHome {
+            directPuzzleResult = nil
+        } else {
+            do {
+                directPuzzleResult = .success(try loader.load(named: configuration.puzzleName))
+            } catch let error as PuzzleLoaderError {
+                directPuzzleResult = .failure(error)
+            } catch {
+                directPuzzleResult = .failure(.decodingFailed(error.localizedDescription))
+            }
         }
     }
 
     var body: some View {
         Group {
-            switch puzzleResult {
-            case .success(let puzzle):
-                GameView(puzzle: puzzle)
-                    .accessibilityIdentifier("gameView")
-            case .failure(let error):
-                PuzzleLoadErrorView(message: Self.message(for: error))
+            if configuration.launchesToHome {
+                NavigationStack {
+                    HomeView(puzzles: catalog)
+                }
+            } else {
+                directGameContent
             }
         }
-        .background(AppColors.background)
+        .background(AppColors.resolvedBackground(highContrast: settings.highContrastEnabled))
+        .environment(\.highContrast, settings.highContrastEnabled)
+        .onAppear {
+            presentTutorialIfNeeded()
+        }
+        .onChange(of: settings.tutorialCompleted) { _, completed in
+            if completed {
+                showTutorial = false
+            }
+        }
+        .fullScreenCover(isPresented: $showTutorial) {
+            TutorialView {
+                settings.completeTutorial()
+                showTutorial = false
+            }
+            .environment(\.highContrast, settings.highContrastEnabled)
+            .interactiveDismissDisabled()
+        }
+    }
+
+    private func presentTutorialIfNeeded() {
+        showTutorial = TutorialCatalog.shouldPresent(
+            tutorialCompleted: settings.tutorialCompleted,
+            configuration: configuration
+        )
+    }
+
+    @ViewBuilder
+    private var directGameContent: some View {
+        switch directPuzzleResult {
+        case .success(let puzzle):
+            GameView(puzzle: puzzle, saveStore: saveStore)
+                // Contain children so cell/board/toolbar identifiers are not overwritten by `gameView`.
+                .accessibilityElement(children: .contain)
+                .accessibilityIdentifier("gameView")
+        case .failure(let error):
+            PuzzleLoadErrorView(message: Self.message(for: error))
+        case .none:
+            PuzzleLoadErrorView(message: "Puzzle could not be loaded.")
+        }
     }
 
     private static func message(for error: PuzzleLoaderError) -> String {
@@ -47,11 +97,25 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    let settings = SettingsStore()
+    return ContentView()
+        .environment(settings)
+        .environment(SoundService(settings: settings))
+        .environment(HapticService(settings: settings))
+        .environment(SaveGameStore())
 }
 
 #if DEBUG
 #Preview("Load Error") {
-    ContentView(configuration: AppLaunchConfiguration(arguments: ["-uiTestPuzzle", "missing-puzzle"]))
+    let settings = SettingsStore()
+    return ContentView(
+        configuration: AppLaunchConfiguration(
+            arguments: ["-uiTestPuzzle", "missing-puzzle"]
+        )
+    )
+        .environment(settings)
+        .environment(SoundService(settings: settings))
+        .environment(HapticService(settings: settings))
+        .environment(SaveGameStore())
 }
 #endif

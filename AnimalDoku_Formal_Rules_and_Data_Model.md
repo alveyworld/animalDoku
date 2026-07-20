@@ -93,19 +93,20 @@ A puzzle is solved only when:
 
 # Interaction Model
 
-## Input Modes
+## Board gestures
 
-The game has two mutually exclusive input modes, toggled via a toolbar control:
+There is no separate Place / Mark mode toggle. Gestures on each cell:
 
-| Mode | Tap empty cell | Tap blocked (X) cell | Tap animal cell |
-|------|----------------|----------------------|-----------------|
-| **Place** (default) | Place animal | No effect | Remove animal |
-| **Mark** | Toggle blocked (X) | Clear X → empty | No effect |
+| Gesture | Empty cell | Blocked (X) cell | Animal cell |
+|---------|------------|------------------|-------------|
+| **Single tap** | Mark blocked (X) | Clear X → empty | No effect |
+| **Double tap** | Place animal | Clear mark and place animal | Remove animal |
+| **Drag** (across cells) | Paint marks (or clear, from first cell polarity) | Same stroke polarity | Skipped |
 
 ## Placement Validation
 
 - Invalid placements are **allowed** but **highlighted** (violations shown on affected cells).
-- Placing an animal does not auto-clear a blocked mark; blocked cells reject placement in Place mode.
+- Double-tapping a blocked cell clears the mark and places an animal in one action (undo restores the blocked state).
 - After puzzle completion, the board is **locked** until the player taps Play Again (reset).
 
 ## Undo / Redo / Reset
@@ -147,9 +148,9 @@ Future: optional `initialPlacements: Position[]` on `Puzzle` (empty array for MV
 
 Players may:
 
-- Place an animal (Place mode)
-- Remove an animal (Place mode, tap animal cell)
-- Mark a cell as impossible / clear mark (Mark mode)
+- Place an animal (double-tap empty or blocked cell)
+- Remove an animal (double-tap animal cell)
+- Mark a cell as impossible / clear mark (single-tap, or drag-to-mark)
 - Undo
 - Redo
 - Reset
@@ -179,7 +180,7 @@ The game stores:
 | Timer (`elapsedSeconds`) | Tracked in v0.1; displayed on win screen in v1.0 |
 | Hint count (`hintsUsed`) | v0.1 |
 | Mistake count | **Deferred to v1.1** — not tracked in MVP |
-| Input mode (Place / Mark) | v0.1 |
+| Gesture model (tap / double-tap / drag) | v1.1 |
 | Completion flag | v0.1 |
 
 Timer pauses when the app enters background; resumes on foreground.

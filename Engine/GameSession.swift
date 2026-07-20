@@ -1,11 +1,5 @@
 import Foundation
 
-/// Place vs. mark (blocked) input mode. See [Formal Rules §Interaction Model](AnimalDoku_Formal_Rules_and_Data_Model.md#interaction-model).
-enum InputMode: Equatable, Hashable {
-    case place
-    case mark
-}
-
 /// Abstraction over board validation for testability.
 protocol Validating {
     func validate(cells: [Cell], puzzle: Puzzle) -> ValidationResult
@@ -24,7 +18,6 @@ final class GameSession {
     private(set) var redoStack: [GameAction] = []
     private(set) var hintsUsed: Int = 0
     private(set) var elapsedSeconds: Int = 0
-    var inputMode: InputMode = .place
     private(set) var validationResult: ValidationResult
 
     var completed: Bool { validationResult.isComplete }
@@ -41,43 +34,116 @@ final class GameSession {
         self.validationResult = validator.validate(cells: cells, puzzle: puzzle)
     }
 
+    /// Syncs tracked play time from `TimerService` into session state (P4.6).
+    func setElapsedSeconds(_ seconds: Int) {
+        elapsedSeconds = max(0, seconds)
+    }
+
+    /// Snapshot for persistence (P4.7). Undo/redo stacks are intentionally omitted.
+    func makeSaveGame(mistakes: Int = 0) -> SaveGame {
+        SaveGame(
+            puzzleId: puzzle.id,
+            elapsedSeconds: elapsedSeconds,
+            cells: cells,
+            hintsUsed: hintsUsed,
+            mistakes: mistakes,
+            completed: completed
+        )
+    }
+
+    /// Restores board counters from a save. Clears undo/redo. Re-validates.
+    func restore(from save: SaveGame) throws {
+        guard save.puzzleId == puzzle.id else {
+            throw SaveGameRestoreError.puzzleIdMismatch
+        }
+        guard save.cells.count == puzzle.size * puzzle.size else {
+            throw SaveGameRestoreError.invalidCellCount
+        }
+
+        let expected = Self.makeEmptyCells(for: puzzle)
+        for (index, cell) in save.cells.enumerated() {
+            let expectedCell = expected[index]
+            guard cell.row == expectedCell.row,
+                  cell.col == expectedCell.col,
+                  cell.regionId == expectedCell.regionId else {
+                throw SaveGameRestoreError.invalidCellLayout
+            }
+        }
+
+        cells = save.cells
+        hintsUsed = max(0, save.hintsUsed)
+        elapsedSeconds = max(0, save.elapsedSeconds)
+        undoStack.removeAll()
+        redoStack.removeAll()
+        revalidate()
+    }
+
     func cell(at position: Position) -> Cell {
         cells[index(for: position)]
     }
 
-    // MARK: - Player actions (P3.2)
+    // MARK: - Player actions (P6.5 unified tap)
 
-    // Interaction Model — Formal Rules §Interaction Model:
-    // | Mode  | Tap empty   | Tap blocked | Tap animal    |
-    // | Place | Place animal| No effect   | Remove animal |
-    // | Mark  | Toggle X    | Clear X     | No effect     |
+    // Interaction Model — Formal Rules §Interaction Model (v1.1):
+    // | Gesture     | Empty        | Blocked           | Animal         |
+    // | Single tap  | Mark X       | Clear X           | No effect      |
+    // | Double tap  | Place animal | Clear + place     | Remove animal  |
 
-    /// Routes a cell tap based on `inputMode` and the cell's current state.
-    func tap(at position: Position) {
+    /// Single tap — toggle blocked mark. No effect on animal cells.
+    func toggleMark(at position: Position) {
         guard !completed else { return }
 
-        let currentState = cell(at: position).state
-
-        switch inputMode {
-        case .place:
-            switch currentState {
-            case .empty:
-                apply(.place(at: position, previous: .empty))
-            case .animal:
-                apply(.remove(at: position, previous: .animal))
-            case .blocked:
-                break
-            }
-        case .mark:
-            switch currentState {
-            case .empty:
-                apply(.toggleBlocked(at: position, previous: .empty))
-            case .blocked:
-                apply(.toggleBlocked(at: position, previous: .blocked))
-            case .animal:
-                break
-            }
+        switch cell(at: position).state {
+        case .empty:
+            apply(.toggleBlocked(at: position, previous: .empty))
+        case .blocked:
+            apply(.toggleBlocked(at: position, previous: .blocked))
+        case .animal:
+            break
         }
+    }
+
+    /// Double tap — place animal (clearing a mark if needed) or remove an animal.
+    func placeOrRemove(at position: Position) {
+        guard !completed else { return }
+
+        switch cell(at: position).state {
+        case .empty:
+            apply(.place(at: position, previous: .empty))
+        case .blocked:
+            apply(.place(at: position, previous: .blocked))
+        case .animal:
+            apply(.remove(at: position, previous: .animal))
+        }
+    }
+
+    // MARK: - Mark drag stroke (P5.7)
+
+    /// Paints or clears a mark without pushing undo. Returns previous state if changed.
+    func paintMark(at position: Position, paintBlocked: Bool) -> CellState? {
+        guard !completed else { return nil }
+
+        let idx = index(for: position)
+        let current = cells[idx].state
+
+        if paintBlocked {
+            guard current == .empty else { return nil }
+            cells[idx].state = .blocked
+            revalidate()
+            return .empty
+        } else {
+            guard current == .blocked else { return nil }
+            cells[idx].state = .empty
+            revalidate()
+            return .blocked
+        }
+    }
+
+    /// Records a completed drag stroke as a single undo entry. Board cells are already painted.
+    func commitMarkStroke(_ changes: [MarkStrokeChange]) {
+        guard !completed, !changes.isEmpty else { return }
+        undoStack.append(.markStroke(changes: changes))
+        redoStack.removeAll()
     }
 
     /// Applies a forward action: mutates the board, records history, and revalidates.
@@ -112,8 +178,8 @@ final class GameSession {
 
     // MARK: - Reset (P3.5)
 
-    /// Restores the initial empty board and clears session progress. Does not change `puzzle`,
-    /// `inputMode`, or app-level settings (theme, sound). See Formal Rules §Undo / Redo / Reset.
+    /// Restores the initial empty board and clears session progress. Does not change `puzzle`
+    /// or app-level settings (theme, sound). See Formal Rules §Undo / Redo / Reset.
     func reset() {
         cells = Self.makeEmptyCells(for: puzzle)
         undoStack.removeAll()
@@ -153,18 +219,21 @@ final class GameSession {
     }
 
     private func performForward(_ action: GameAction, clearRedoStack: Bool) {
-        let idx = index(for: action.position)
-
         switch action {
-        case .place:
-            cells[idx].state = .animal
-        case .remove:
-            cells[idx].state = .empty
-        case .toggleBlocked(_, let previous):
-            cells[idx].state = previous == .empty ? .blocked : .empty
-        case .hint:
-            cells[idx].state = .animal
+        case .place(let at, _):
+            cells[index(for: at)].state = .animal
+        case .remove(let at, _):
+            cells[index(for: at)].state = .empty
+        case .toggleBlocked(let at, let previous):
+            cells[index(for: at)].state = previous == .empty ? .blocked : .empty
+        case .hint(let at, _):
+            cells[index(for: at)].state = .animal
             hintsUsed += 1
+        case .markStroke(let changes):
+            for change in changes {
+                cells[index(for: change.at)].state =
+                    change.previous == .empty ? .blocked : .empty
+            }
         }
 
         undoStack.append(action)
@@ -175,9 +244,16 @@ final class GameSession {
     }
 
     private func applyInverse(of action: GameAction) {
-        cells[index(for: action.position)].state = action.previousState
-        if action.isHint {
-            hintsUsed -= 1
+        switch action {
+        case .place, .remove, .toggleBlocked, .hint:
+            cells[index(for: action.position)].state = action.previousState
+            if action.isHint {
+                hintsUsed -= 1
+            }
+        case .markStroke(let changes):
+            for change in changes.reversed() {
+                cells[index(for: change.at)].state = change.previous
+            }
         }
     }
 

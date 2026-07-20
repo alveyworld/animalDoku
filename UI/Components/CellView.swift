@@ -7,42 +7,89 @@ import SwiftUI
 ///
 /// SwiftUI previews at the bottom demonstrate all visual states for design review.
 struct CellView: View {
+    @Environment(\.accessibilityReduceMotion) private var accessibilityReduceMotion
+    @Environment(\.forceReduceMotion) private var forceReduceMotion
+    @Environment(\.highContrast) private var highContrast
+
     let row: Int
     let col: Int
     let regionId: Int
     let state: CellState
     var isSelected: Bool = false
     var isViolating: Bool = false
-    var animalIcon: Image = ThemeAsset.image(for: "frogs")
-    var onTap: () -> Void = {}
+    /// When true (completed puzzle), cells announce as locked.
+    var isBoardLocked: Bool = false
+    var animalIcon: Image = ThemeAsset.image(for: ThemeCatalog.defaultTheme)
+    var animalIconColor: Color = AppColors.primary
+    var selectionBorderColor: Color = AppColors.accent
+    var onSingleTap: () -> Void = {}
+    var onDoubleTap: () -> Void = {}
+
+    private var reduceMotion: Bool {
+        accessibilityReduceMotion || forceReduceMotion
+    }
+
+    private var resolvedIconColor: Color {
+        highContrast ? AppColors.resolvedPrimary(highContrast: true) : animalIconColor
+    }
+
+    private var resolvedSelectionColor: Color {
+        highContrast ? AppColors.resolvedAccent(highContrast: true) : selectionBorderColor
+    }
+
+    private var resolvedErrorColor: Color {
+        AppColors.resolvedError(highContrast: highContrast)
+    }
 
     var body: some View {
-        Button(action: onTap) {
-            cellContent
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-        .frame(minWidth: TouchTarget.minimum, minHeight: TouchTarget.minimum)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .accessibilityLabel(CellViewAccessibility.label(
-            row: row,
-            col: col,
-            regionId: regionId,
-            state: state,
-            isViolating: isViolating
-        ))
-        .accessibilityAddTraits(.isButton)
+        cellContent
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .contentShape(Rectangle())
+            .onTapGesture(count: 2) {
+                guard !isBoardLocked else { return }
+                onDoubleTap()
+            }
+            .onTapGesture(count: 1) {
+                guard !isBoardLocked else { return }
+                onSingleTap()
+            }
+            .frame(minWidth: TouchTarget.minimum, minHeight: TouchTarget.minimum)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(CellViewAccessibility.label(
+                row: row,
+                col: col,
+                regionId: regionId,
+                state: state,
+                isViolating: isViolating,
+                isSelected: isSelected,
+                isBoardLocked: isBoardLocked
+            ))
+            .accessibilityHint(CellViewAccessibility.hint(for: state, isBoardLocked: isBoardLocked))
+            .accessibilityIdentifier("cell_\(row)_\(col)")
+            .accessibilityAddTraits(CellViewAccessibility.traits(
+                isSelected: isSelected,
+                isBoardLocked: isBoardLocked
+            ))
+            .accessibilityAction(named: Text(CellViewAccessibility.markActionName(for: state))) {
+                guard !isBoardLocked else { return }
+                onSingleTap()
+            }
+            .accessibilityAction(named: Text(CellViewAccessibility.placeActionName(for: state))) {
+                guard !isBoardLocked else { return }
+                onDoubleTap()
+            }
     }
 
     private var cellContent: some View {
         ZStack {
             if isViolating {
                 RoundedRectangle(cornerRadius: AppSpacing.cornerRadiusSmall)
-                    .fill(AppColors.error.opacity(0.18))
+                    .fill(resolvedErrorColor.opacity(highContrast ? 0.28 : 0.18))
             }
 
             stateContent
+                .animation(Motion.cellStateAnimation(reduceMotion: reduceMotion), value: state)
 
             RoundedRectangle(cornerRadius: AppSpacing.cornerRadiusSmall)
                 .strokeBorder(borderColor, lineWidth: borderWidth)
@@ -58,29 +105,32 @@ struct CellView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .accessibilityHidden(true)
         case .blocked:
-            BlockedMark()
+            BlockedMark(color: resolvedIconColor)
+                .transition(Motion.cellContentTransition(reduceMotion: reduceMotion))
         case .animal:
             animalIcon
                 .resizable()
                 .scaledToFit()
-                .foregroundStyle(AppColors.primary)
+                .foregroundStyle(resolvedIconColor)
                 .padding(AppSpacing.xs)
                 .accessibilityHidden(true)
+                .transition(Motion.cellContentTransition(reduceMotion: reduceMotion))
         }
     }
 
     private var borderColor: Color {
         if isViolating {
-            return AppColors.error
+            return resolvedErrorColor
         }
         if isSelected {
-            return AppColors.accent
+            return resolvedSelectionColor
         }
         return .clear
     }
 
     private var borderWidth: CGFloat {
-        (isSelected || isViolating) ? 2 : 0
+        guard isSelected || isViolating else { return 0 }
+        return AppColors.borderWeight(highContrast: highContrast) + (highContrast ? 0 : 1)
     }
 }
 
@@ -88,6 +138,8 @@ struct CellView: View {
 
 /// Diagonal X stroke — shape-based, not color alone (GDD accessibility).
 private struct BlockedMark: View {
+    var color: Color = AppColors.primary
+
     var body: some View {
         GeometryReader { geometry in
             let inset = geometry.size.width * 0.22
@@ -100,7 +152,7 @@ private struct BlockedMark: View {
                 path.addLine(to: CGPoint(x: inset, y: size.height - inset))
             }
             .stroke(
-                AppColors.primary,
+                color,
                 style: StrokeStyle(lineWidth: 2.5, lineCap: .round)
             )
         }
@@ -117,11 +169,54 @@ enum CellViewAccessibility {
         col: Int,
         regionId: Int,
         state: CellState,
-        isViolating: Bool
+        isViolating: Bool,
+        isSelected: Bool = false,
+        isBoardLocked: Bool = false
     ) -> String {
         let position = "Row \(row + 1), Column \(col + 1), Region \(regionId)"
-        let stateName = stateLabel(for: state, isViolating: isViolating)
-        return "\(position), \(stateName)"
+        var parts = [position, stateLabel(for: state, isViolating: isViolating)]
+        if isSelected {
+            parts.append("selected")
+        }
+        if isBoardLocked {
+            parts.append("locked")
+        }
+        return parts.joined(separator: ", ")
+    }
+
+    static func hint(for state: CellState, isBoardLocked: Bool) -> String {
+        guard !isBoardLocked else { return "Board locked" }
+        switch state {
+        case .empty:
+            return "Tap to mark, double tap to place animal"
+        case .blocked:
+            return "Tap to clear mark, double tap to place animal"
+        case .animal:
+            return "Double tap to remove animal"
+        }
+    }
+
+    static func markActionName(for state: CellState) -> String {
+        switch state {
+        case .blocked: "Clear mark"
+        case .empty, .animal: "Mark"
+        }
+    }
+
+    static func placeActionName(for state: CellState) -> String {
+        switch state {
+        case .animal: "Remove animal"
+        case .empty, .blocked: "Place animal"
+        }
+    }
+
+    static func traits(isSelected: Bool, isBoardLocked: Bool) -> AccessibilityTraits {
+        var traits: AccessibilityTraits = .isButton
+        if isSelected {
+            traits.insert(.isSelected)
+        }
+        _ = isBoardLocked
+        return traits
     }
 
     private static func stateLabel(for state: CellState, isViolating: Bool) -> String {

@@ -33,17 +33,27 @@ enum RegionPatternStyle: CaseIterable, Equatable {
 /// Low-opacity pattern overlay clipped to a single board cell.
 struct RegionPattern: View {
     let regionId: Int
-    var opacity: Double = 0.2
+    var opacity: Double? = nil
+    var highContrast: Bool = false
 
     private var style: RegionPatternStyle {
         RegionPatternStyle.forRegion(regionId)
     }
 
+    private var resolvedOpacity: Double {
+        opacity ?? (highContrast ? 0.35 : 0.2)
+    }
+
     var body: some View {
         Canvas { context, size in
-            RegionPatternRenderer.draw(style: style, in: &context, size: size)
+            RegionPatternRenderer.draw(
+                style: style,
+                in: &context,
+                size: size,
+                highContrast: highContrast
+            )
         }
-        .opacity(opacity)
+        .opacity(resolvedOpacity)
         .allowsHitTesting(false)
         .accessibilityHidden(true)
     }
@@ -52,48 +62,59 @@ struct RegionPattern: View {
 // MARK: - Drawing
 
 enum RegionPatternRenderer {
-    static func draw(style: RegionPatternStyle, in context: inout GraphicsContext, size: CGSize) {
+    static func draw(
+        style: RegionPatternStyle,
+        in context: inout GraphicsContext,
+        size: CGSize,
+        highContrast: Bool = false
+    ) {
+        let stroke = AppColors.resolvedPatternOverlay(highContrast: highContrast)
+        let width: CGFloat = highContrast ? 1.75 : 1.25
         switch style {
         case .dots:
-            drawDots(in: &context, size: size)
+            drawDots(in: &context, size: size, stroke: stroke)
         case .horizontalStripes:
-            drawStripes(in: &context, size: size, vertical: false)
+            drawStripes(in: &context, size: size, vertical: false, stroke: stroke, lineWidth: width)
         case .verticalStripes:
-            drawStripes(in: &context, size: size, vertical: true)
+            drawStripes(in: &context, size: size, vertical: true, stroke: stroke, lineWidth: width)
         case .diagonalStripes:
-            drawDiagonalStripes(in: &context, size: size, reverse: false)
+            drawDiagonalStripes(in: &context, size: size, reverse: false, stroke: stroke, lineWidth: width)
         case .crosshatch:
-            drawDiagonalStripes(in: &context, size: size, reverse: false)
-            drawDiagonalStripes(in: &context, size: size, reverse: true)
+            drawDiagonalStripes(in: &context, size: size, reverse: false, stroke: stroke, lineWidth: width)
+            drawDiagonalStripes(in: &context, size: size, reverse: true, stroke: stroke, lineWidth: width)
         case .grid:
-            drawStripes(in: &context, size: size, vertical: false)
-            drawStripes(in: &context, size: size, vertical: true)
+            drawStripes(in: &context, size: size, vertical: false, stroke: stroke, lineWidth: width)
+            drawStripes(in: &context, size: size, vertical: true, stroke: stroke, lineWidth: width)
         case .chevrons:
-            drawChevrons(in: &context, size: size)
+            drawChevrons(in: &context, size: size, stroke: stroke, lineWidth: width)
         case .circles:
-            drawCircles(in: &context, size: size)
+            drawCircles(in: &context, size: size, stroke: stroke, lineWidth: width)
         }
     }
 
-    private static var strokeColor: Color { AppColors.patternOverlay }
-    private static let lineWidth: CGFloat = 1.25
     private static let spacing: CGFloat = 8
 
-    private static func drawDots(in context: inout GraphicsContext, size: CGSize) {
+    private static func drawDots(in context: inout GraphicsContext, size: CGSize, stroke: Color) {
         let radius: CGFloat = 1.6
         var y = spacing / 2
         while y < size.height {
             var x = spacing / 2
             while x < size.width {
                 let rect = CGRect(x: x - radius, y: y - radius, width: radius * 2, height: radius * 2)
-                context.fill(Path(ellipseIn: rect), with: .color(strokeColor))
+                context.fill(Path(ellipseIn: rect), with: .color(stroke))
                 x += spacing
             }
             y += spacing
         }
     }
 
-    private static func drawStripes(in context: inout GraphicsContext, size: CGSize, vertical: Bool) {
+    private static func drawStripes(
+        in context: inout GraphicsContext,
+        size: CGSize,
+        vertical: Bool,
+        stroke: Color,
+        lineWidth: CGFloat
+    ) {
         var path = Path()
         if vertical {
             var x = spacing
@@ -110,13 +131,15 @@ enum RegionPatternRenderer {
                 y += spacing
             }
         }
-        context.stroke(path, with: .color(strokeColor), lineWidth: lineWidth)
+        context.stroke(path, with: .color(stroke), lineWidth: lineWidth)
     }
 
     private static func drawDiagonalStripes(
         in context: inout GraphicsContext,
         size: CGSize,
-        reverse: Bool
+        reverse: Bool,
+        stroke: Color,
+        lineWidth: CGFloat
     ) {
         var path = Path()
         let extent = size.width + size.height
@@ -131,10 +154,15 @@ enum RegionPatternRenderer {
             }
             offset += spacing
         }
-        context.stroke(path, with: .color(strokeColor), lineWidth: lineWidth)
+        context.stroke(path, with: .color(stroke), lineWidth: lineWidth)
     }
 
-    private static func drawChevrons(in context: inout GraphicsContext, size: CGSize) {
+    private static func drawChevrons(
+        in context: inout GraphicsContext,
+        size: CGSize,
+        stroke: Color,
+        lineWidth: CGFloat
+    ) {
         var path = Path()
         let amplitude = spacing * 0.75
         var y = spacing
@@ -153,10 +181,15 @@ enum RegionPatternRenderer {
             }
             y += spacing * 1.5
         }
-        context.stroke(path, with: .color(strokeColor), lineWidth: lineWidth)
+        context.stroke(path, with: .color(stroke), lineWidth: lineWidth)
     }
 
-    private static func drawCircles(in context: inout GraphicsContext, size: CGSize) {
+    private static func drawCircles(
+        in context: inout GraphicsContext,
+        size: CGSize,
+        stroke: Color,
+        lineWidth: CGFloat
+    ) {
         let center = CGPoint(x: size.width / 2, y: size.height / 2)
         let maxRadius = max(size.width, size.height) * 0.55
         var radius = spacing
@@ -167,7 +200,7 @@ enum RegionPatternRenderer {
                 width: radius * 2,
                 height: radius * 2
             )
-            context.stroke(Path(ellipseIn: rect), with: .color(strokeColor), lineWidth: lineWidth)
+            context.stroke(Path(ellipseIn: rect), with: .color(stroke), lineWidth: lineWidth)
             radius += spacing
         }
     }

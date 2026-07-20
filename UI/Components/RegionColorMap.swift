@@ -3,17 +3,24 @@ import SwiftUI
 /// Maps puzzle region IDs to SwiftUI colors from hex strings in puzzle JSON.
 struct RegionColorMap {
     private let colorsByRegionId: [Int: Color]
+    private let highContrast: Bool
 
-    init(regions: [Region]) {
+    init(regions: [Region], highContrast: Bool = false) {
+        self.highContrast = highContrast
         var map: [Int: Color] = [:]
         for region in regions {
-            map[region.id] = Self.parseHex(region.color) ?? AppColors.regionColor(at: region.id)
+            if highContrast {
+                map[region.id] = AppColors.regionColor(at: region.id, highContrast: true)
+            } else {
+                map[region.id] = Self.parseHex(region.color) ?? AppColors.regionColor(at: region.id)
+            }
         }
         colorsByRegionId = map
     }
 
     func color(for regionId: Int) -> Color {
-        colorsByRegionId[regionId] ?? AppColors.regionColor(at: regionId)
+        colorsByRegionId[regionId]
+            ?? AppColors.regionColor(at: regionId, highContrast: highContrast)
     }
 
     /// Parses `#RRGGBB` hex strings into SwiftUI colors.

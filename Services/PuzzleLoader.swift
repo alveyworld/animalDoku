@@ -46,6 +46,19 @@ struct PuzzleLoader {
         try availablePuzzleNames(in: bundle).map { try load(named: $0, in: bundle) }
     }
 
+    /// Loads every valid `puzzle-*.json`, skipping files that fail decode or validation.
+    func loadAvailablePuzzles(in bundle: Bundle = .main) -> [Puzzle] {
+        availablePuzzleNames(in: bundle).compactMap { name in
+            do {
+                return try load(named: name, in: bundle)
+            } catch {
+                // Malformed catalog entries must not prevent Home from listing valid puzzles.
+                print("PuzzleLoader: skipping invalid puzzle '\(name)': \(error)")
+                return nil
+            }
+        }
+    }
+
     func availablePuzzleNames(in bundle: Bundle = .main) -> [String] {
         var urls = bundle.urls(forResourcesWithExtension: "json", subdirectory: "Puzzles") ?? []
         if urls.isEmpty {

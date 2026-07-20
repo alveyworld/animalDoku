@@ -8,39 +8,37 @@ import UIKit
 /// - `theme-dogs-icon`
 /// - `theme-foxes-icon`
 ///
-/// Final artwork is added in P4.1 / P5.4. Until then, SF Symbol fallbacks are used.
+/// Metadata (names, colors) lives in `ThemeCatalog` (P4.1).
+/// Final artwork is added in P5.4. Until then, SF Symbol fallbacks are used.
 enum ThemeAsset {
-    static let frogsIcon = "theme-frogs-icon"
-    static let dogsIcon = "theme-dogs-icon"
-    static let foxesIcon = "theme-foxes-icon"
+    static let frogsIcon = ThemeCatalog.frogs.icon
+    static let dogsIcon = ThemeCatalog.dogs.icon
+    static let foxesIcon = ThemeCatalog.foxes.icon
 
     static func iconName(for themeID: String) -> String {
-        switch themeID {
-        case "frogs": frogsIcon
-        case "dogs": dogsIcon
-        case "foxes": foxesIcon
-        default: frogsIcon
-        }
+        ThemeCatalog.theme(id: themeID).icon
     }
 
     static func fallbackSymbol(for themeID: String) -> String {
         switch themeID {
-        case "frogs": "leaf.fill"
-        case "dogs": "pawprint.fill"
-        case "foxes": "hare.fill"
+        case ThemeCatalog.dogs.id: "pawprint.fill"
+        case ThemeCatalog.foxes.id: "hare.fill"
         default: "leaf.fill"
         }
     }
 
     static func image(for themeID: String) -> Image {
-        let name = iconName(for: themeID)
-        if UIImage(named: name) != nil {
-            return Image(name)
+        image(for: ThemeCatalog.theme(id: themeID))
+    }
+
+    static func image(for theme: Theme) -> Image {
+        if UIImage(named: theme.icon) != nil {
+            return Image(theme.icon)
         }
-        return Image(systemName: fallbackSymbol(for: themeID))
+        return Image(systemName: fallbackSymbol(for: theme.id))
     }
 
     static var allIconNames: [String] {
-        [frogsIcon, dogsIcon, foxesIcon]
+        ThemeCatalog.all.map(\.icon)
     }
 }

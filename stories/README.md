@@ -71,41 +71,44 @@ Actionable developer stories derived from [IMPLEMENTATION_ROADMAP.md](../IMPLEME
 
 | ID | Story | Release | Effort | Status |
 |----|-------|---------|--------|--------|
-| [P4.1](phase-4/P4.1-theme-catalog.md) | Theme catalog & assets | v1.0 | S | ⬜ |
-| [P4.2](phase-4/P4.2-theme-switcher.md) | Theme switcher UI | v1.0 | S | ⬜ |
-| [P4.3](phase-4/P4.3-settings-store.md) | SettingsStore persistence | v1.0 | XS | ⬜ |
-| [P4.4](phase-4/P4.4-settings-sheet.md) | Settings sheet | v1.0 | XS | ⬜ |
-| [P4.5](phase-4/P4.5-sound-service.md) | Sound effects & SoundService | v1.0 | XS | ⬜ |
-| [P4.6](phase-4/P4.6-timer-service.md) | Timer service & win display | v1.0 | XS | ⬜ |
-| [P4.7](phase-4/P4.7-save-game-persistence.md) | Save game persistence | v1.1 | S | ⬜ |
-| [P4.8](phase-4/P4.8-home-puzzle-select.md) | Home & puzzle selection | v1.1 | S | ⬜ |
+| [P4.1](phase-4/P4.1-theme-catalog.md) | Theme catalog & assets | v1.0 | S | ✅ |
+| [P4.2](phase-4/P4.2-theme-switcher.md) | Theme switcher UI | v1.0 | S | ✅ |
+| [P4.3](phase-4/P4.3-settings-store.md) | SettingsStore persistence | v1.0 | XS | ✅ |
+| [P4.4](phase-4/P4.4-settings-sheet.md) | Settings sheet | v1.0 | XS | ✅ |
+| [P4.5](phase-4/P4.5-sound-service.md) | Sound effects & SoundService | v1.0 | XS | ✅ |
+| [P4.6](phase-4/P4.6-timer-service.md) | Timer service & win display | v1.0 | XS | ✅ |
+| [P4.7](phase-4/P4.7-save-game-persistence.md) | Save game persistence | v1.1 | S | ✅ |
+| [P4.8](phase-4/P4.8-home-puzzle-select.md) | Home & puzzle selection | v1.1 | S | ✅ |
+| [P4.9](phase-4/P4.9-expand-puzzle-catalog.md) | Expand puzzle catalog by difficulty | v1.1 | M | ✅ |
 
 ### Phase 5 — Polish
 
 | ID | Story | Release | Effort | Status |
 |----|-------|---------|--------|--------|
-| [P5.1](phase-5/P5.1-placement-animations.md) | Placement animations | v1.0 | S | ⬜ |
-| [P5.2](phase-5/P5.2-win-animations.md) | Win animations | v1.0 | XS | ⬜ |
-| [P5.3](phase-5/P5.3-high-contrast-mode.md) | High contrast mode | v1.0 | S | ⬜ |
-| [P5.4](phase-5/P5.4-app-icon-launch-screen.md) | App icon & launch screen | v1.0 | XS | ⬜ |
-| [P5.5](phase-5/P5.5-tutorial-flow.md) | Tutorial flow | v1.1 | S | ⬜ |
-| [P5.6](phase-5/P5.6-haptic-feedback.md) | Haptic feedback | v1.1 | XS | ⬜ |
+| [P5.1](phase-5/P5.1-placement-animations.md) | Placement animations | v1.0 | S | ✅ |
+| [P5.2](phase-5/P5.2-win-animations.md) | Win animations | v1.0 | XS | ✅ |
+| [P5.3](phase-5/P5.3-high-contrast-mode.md) | High contrast mode | v1.0 | S | ✅ |
+| [P5.4](phase-5/P5.4-app-icon-launch-screen.md) | App icon & launch screen | v1.0 | XS | ✅ |
+| [P5.5](phase-5/P5.5-tutorial-flow.md) | Tutorial flow | v1.1 | S | ✅ |
+| [P5.6](phase-5/P5.6-haptic-feedback.md) | Haptic feedback | v1.1 | XS | ✅ |
+| [P5.7](phase-5/P5.7-drag-to-mark.md) | Drag-to-mark gesture | v1.1 | S | ✅ |
 
 ### Phase 6 — Testing
 
 | ID | Story | Release | Effort | Status |
 |----|-------|---------|--------|--------|
 | [P6.1](phase-6/P6.1-puzzle-integrity-tests.md) | Puzzle integrity tests | v0.1 | S | ✅ |
-| [P6.2](phase-6/P6.2-ui-test-play-to-win.md) | UI test — play to win | v1.0 | S | ⬜ |
-| [P6.3](phase-6/P6.3-accessibility-audit.md) | Accessibility audit | v1.0 | S | ⬜ |
-| [P6.4](phase-6/P6.4-device-matrix-testing.md) | Device matrix testing | v1.1 | S | ⬜ |
+| [P6.2](phase-6/P6.2-ui-test-play-to-win.md) | UI test — play to win | v1.0 | S | ✅ |
+| [P6.3](phase-6/P6.3-accessibility-audit.md) | Accessibility audit | v1.0 | S | ✅ |
+| [P6.4](phase-6/P6.4-device-matrix-testing.md) | Device matrix testing | v1.1 | S | ✅ |
+| [P6.5](phase-6/P6.5-unified-tap-mark-place.md) | Tap to mark / double-tap to place | v1.1 | S | ✅ |
 
 ### Phase 7 — Deployment
 
 | ID | Story | Release | Effort | Status |
 |----|-------|---------|--------|--------|
-| [P7.1](phase-7/P7.1-privacy-manifest.md) | Privacy manifest | v1.0 | XS | ⬜ |
-| [P7.2](phase-7/P7.2-testflight-beta.md) | TestFlight beta | v1.1 | S | ⬜ |
+| [P7.1](phase-7/P7.1-privacy-manifest.md) | Privacy manifest | v1.0 | XS | ✅ |
+| [P7.2](phase-7/P7.2-testflight-beta.md) | TestFlight beta | v1.1 | S | ✅ |
 | [P7.3](phase-7/P7.3-app-store-submission.md) | App Store submission | v1.1 | S | ⬜ |
 
 ## Dependency graph (simplified)
@@ -117,6 +120,7 @@ P1.4 → P3.8 → P3.9 → P3.10
 P3.2,P3.8 → P3.11,P3.12 → P3.13 → P3.14 → P3.15,P3.16
 P4.1 → P4.2 → P4.4; P4.3 → P4.4,P4.5
 P3.14 → P6.2; P2.8 → P6.1
+P3.11,P5.7 → P6.5
 ```
 
 ## Effort key

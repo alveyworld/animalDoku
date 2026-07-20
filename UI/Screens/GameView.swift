@@ -1,27 +1,56 @@
 import Observation
 import SwiftUI
 
-/// Primary game screen composing board, mode toggle, and toolbar (v0.1 playable milestone).
+/// Primary game screen composing board and toolbar.
 struct GameView: View {
+    @Environment(SettingsStore.self) private var settings
+    @Environment(SoundService.self) private var soundService
+    @Environment(HapticService.self) private var hapticService
+    @Environment(\.scenePhase) private var scenePhase
     @State private var viewModel: GameViewModel
+    @State private var showSettings = false
+    @State private var didAttachServices = false
 
-    init(puzzle: Puzzle) {
-        _viewModel = State(initialValue: GameViewModel(puzzle: puzzle))
+    init(puzzle: Puzzle, saveStore: SaveGamePersisting = InMemorySaveGameStore()) {
+        _viewModel = State(initialValue: GameViewModel(puzzle: puzzle, saveStore: saveStore))
     }
 
     var body: some View {
         @Bindable var viewModel = viewModel
+        let theme = settings.selectedTheme
+        let highContrast = settings.highContrastEnabled
 
         VStack(spacing: AppSpacing.sm) {
-            Text("Animal Doku")
-                .font(AppTypography.title)
-                .foregroundStyle(AppColors.primary)
-                .accessibilityAddTraits(.isHeader)
+            HStack {
+                Text("Animal Doku")
+                    .font(AppTypography.title)
+                    .foregroundStyle(AppColors.resolvedPrimary(highContrast: highContrast))
+                    .accessibilityAddTraits(.isHeader)
 
-            InputModeToggle(
-                mode: $viewModel.inputMode,
-                isEnabled: !viewModel.isCompleted
-            )
+                Spacer()
+
+                Button {
+                    showSettings = true
+                } label: {
+                    Image(systemName: "gearshape.fill")
+                        .font(.system(size: 20, weight: .medium))
+                        .foregroundStyle(AppColors.resolvedPrimary(highContrast: highContrast))
+                        .frame(width: TouchTarget.minimum, height: TouchTarget.minimum)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(SettingsViewAccessibility.openSettingsLabel)
+                .accessibilityHint(SettingsViewAccessibility.openSettingsHint)
+                .accessibilityIdentifier("openSettingsButton")
+                .accessibilityAddTraits(.isButton)
+            }
+
+            Text(GameViewAccessibility.gestureHint)
+                .font(AppTypography.caption)
+                .foregroundStyle(AppColors.resolvedSecondary(highContrast: highContrast))
+                .frame(maxWidth: .infinity, alignment: .center)
+                .accessibilityHidden(true)
 
             BoardView(
                 puzzle: viewModel.puzzle,
@@ -29,8 +58,13 @@ struct GameView: View {
                 validationResult: viewModel.validationResult,
                 selectedPosition: viewModel.selectedPosition,
                 isBoardLocked: viewModel.isCompleted,
-                animalIcon: ThemeAsset.image(for: "frogs"),
-                onCellTap: { viewModel.handleCellTap(at: $0) }
+                theme: theme,
+                animalIcon: ThemeAsset.image(for: theme),
+                onCellSingleTap: { viewModel.handleCellSingleTap(at: $0) },
+                onCellDoubleTap: { viewModel.handleCellDoubleTap(at: $0) },
+                onMarkDragBegan: { viewModel.beginMarkDrag(at: $0) },
+                onMarkDragMoved: { viewModel.continueMarkDrag(at: $0) },
+                onMarkDragEnded: { viewModel.endMarkDrag() }
             )
 
             GameToolbar(
@@ -48,19 +82,52 @@ struct GameView: View {
         }
         .padding(AppSpacing.md)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(AppColors.background)
+        .background(AppColors.resolvedBackground(highContrast: highContrast))
+        .environment(\.highContrast, highContrast)
+        .onAppear {
+            guard !didAttachServices else { return }
+            viewModel.soundService = soundService
+            viewModel.hapticService = hapticService
+            didAttachServices = true
+        }
+        .onChange(of: scenePhase) { _, phase in
+            switch phase {
+            case .active:
+                viewModel.resumeTimer()
+            case .inactive, .background:
+                viewModel.pauseTimer()
+            @unknown default:
+                break
+            }
+        }
+        .sheet(isPresented: $showSettings) {
+            SettingsView()
+                .environment(\.highContrast, highContrast)
+        }
         .sheet(isPresented: $viewModel.showWinScreen) {
-            WinScreen {
+            WinScreen(elapsedSeconds: viewModel.elapsedSeconds) {
                 viewModel.playAgain()
             }
+            .environment(\.highContrast, highContrast)
             .interactiveDismissDisabled()
         }
     }
 }
 
+enum GameViewAccessibility {
+    static let gestureHint = String(
+        localized: "game.gestureHint",
+        defaultValue: "Tap to mark · Double-tap to place"
+    )
+}
+
 #if DEBUG
 #Preview {
-    GameView(puzzle: BoardPreviewPuzzle.mini)
+    let settings = SettingsStore()
+    return GameView(puzzle: BoardPreviewPuzzle.mini)
+        .environment(settings)
+        .environment(SoundService(settings: settings))
+        .environment(HapticService(settings: settings))
 }
 
 private enum BoardPreviewPuzzle {

@@ -1,41 +1,9 @@
 import XCTest
 @testable import AnimalDoku
 
+/// InputModeToggle was removed in P6.5 (unified tap: mark on single, place on double).
 final class InputModeToggleTests: XCTestCase {
-    func testValueLabelForPlaceMode() {
-        XCTAssertEqual(
-            InputModeToggleAccessibility.valueLabel(for: .place),
-            "Place mode"
-        )
-    }
-
-    func testValueLabelForMarkMode() {
-        XCTAssertEqual(
-            InputModeToggleAccessibility.valueLabel(for: .mark),
-            "Mark mode"
-        )
-    }
-
-    func testHintDescribesPlaceBehavior() {
-        XCTAssertEqual(
-            InputModeToggleAccessibility.hint(for: .place),
-            "Tap cells to place animals"
-        )
-    }
-
-    func testHintDescribesMarkBehavior() {
-        XCTAssertEqual(
-            InputModeToggleAccessibility.hint(for: .mark),
-            "Tap cells to mark impossible"
-        )
-    }
-
-    func testAnnouncementMatchesValueLabel() {
-        for mode in [InputMode.place, .mark] {
-            XCTAssertEqual(
-                InputModeToggleAccessibility.announcement(for: mode),
-                InputModeToggleAccessibility.valueLabel(for: mode)
-            )
-        }
+    func testInputModeToggleRemovedInP65() throws {
+        throw XCTSkip("InputModeToggle removed in P6.5 — Place/Mark mode no longer exists")
     }
 }

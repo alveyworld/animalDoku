@@ -15,16 +15,17 @@ enum AppColors {
     static let primary = Color(red: 0.30, green: 0.38, blue: 0.48)
 
     /// Interactive accents — toolbar highlights, selected states.
-    static let accent = Color(red: 0.52, green: 0.72, blue: 0.62)
+    /// Tuned for ≥4.5:1 on background/surface (P6.3).
+    static let accent = Color(red: 0.18, green: 0.45, blue: 0.34)
 
     /// Rule violations and error states.
-    static let error = Color(red: 0.88, green: 0.42, blue: 0.42)
+    static let error = Color(red: 0.72, green: 0.16, blue: 0.16)
 
     /// Subtle dividers and grid lines.
     static let border = Color(red: 0.82, green: 0.84, blue: 0.86)
 
     /// Secondary labels and hints.
-    static let secondary = Color(red: 0.55, green: 0.58, blue: 0.62)
+    static let secondary = Color(red: 0.38, green: 0.41, blue: 0.45)
 
     /// Pattern strokes for colorblind region overlays (P3.10).
     static let patternOverlay = Color.black
@@ -80,12 +81,75 @@ enum AppColors {
         return palette[index % palette.count]
     }
 
+    static func resolvedBackground(highContrast: Bool = false) -> Color {
+        highContrast ? HighContrast.background : background
+    }
+
+    static func resolvedSurface(highContrast: Bool = false) -> Color {
+        highContrast ? HighContrast.surface : surface
+    }
+
+    static func resolvedPrimary(highContrast: Bool = false) -> Color {
+        highContrast ? HighContrast.primary : primary
+    }
+
+    static func resolvedSecondary(highContrast: Bool = false) -> Color {
+        highContrast ? HighContrast.secondary : secondary
+    }
+
+    static func resolvedAccent(highContrast: Bool = false) -> Color {
+        highContrast ? HighContrast.accent : accent
+    }
+
+    static func resolvedError(highContrast: Bool = false) -> Color {
+        highContrast ? HighContrast.error : error
+    }
+
     static func resolvedBorder(highContrast: Bool = false) -> Color {
         highContrast ? HighContrast.border : border
     }
 
+    static func resolvedPatternOverlay(highContrast: Bool = false) -> Color {
+        highContrast ? Color.black : patternOverlay
+    }
+
     static func borderWeight(highContrast: Bool = false) -> CGFloat {
         highContrast ? HighContrast.borderWeight : AppSpacing.borderWeight
+    }
+
+    /// Approximate WCAG contrast ratio for known token pairs (unit-test aid).
+    static func contrastRatio(foreground: ContrastRGB, background: ContrastRGB) -> Double {
+        let lighter = max(foreground.relativeLuminance, background.relativeLuminance)
+        let darker = min(foreground.relativeLuminance, background.relativeLuminance)
+        return (lighter + 0.05) / (darker + 0.05)
+    }
+
+    struct ContrastRGB {
+        let red: Double
+        let green: Double
+        let blue: Double
+
+        var relativeLuminance: Double {
+            func channel(_ value: Double) -> Double {
+                value <= 0.03928 ? value / 12.92 : pow((value + 0.055) / 1.055, 2.4)
+            }
+            return 0.2126 * channel(red) + 0.7152 * channel(green) + 0.0722 * channel(blue)
+        }
+
+        static let highContrastPrimary = ContrastRGB(red: 0, green: 0, blue: 0)
+        static let highContrastBackground = ContrastRGB(red: 1, green: 1, blue: 1)
+        static let highContrastSecondary = ContrastRGB(red: 0.25, green: 0.25, blue: 0.25)
+        static let highContrastAccent = ContrastRGB(red: 0.0, green: 0.35, blue: 0.55)
+        static let highContrastError = ContrastRGB(red: 0.75, green: 0.0, blue: 0.0)
+        static let highContrastSurface = ContrastRGB(red: 0.95, green: 0.95, blue: 0.95)
+
+        // Default (pastel) token RGB — keep in sync with AppColors above.
+        static let defaultBackground = ContrastRGB(red: 0.98, green: 0.97, blue: 0.95)
+        static let defaultSurface = ContrastRGB(red: 1.0, green: 1.0, blue: 1.0)
+        static let defaultPrimary = ContrastRGB(red: 0.30, green: 0.38, blue: 0.48)
+        static let defaultSecondary = ContrastRGB(red: 0.38, green: 0.41, blue: 0.45)
+        static let defaultAccent = ContrastRGB(red: 0.18, green: 0.45, blue: 0.34)
+        static let defaultError = ContrastRGB(red: 0.72, green: 0.16, blue: 0.16)
     }
 }
 

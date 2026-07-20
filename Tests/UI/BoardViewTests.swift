@@ -30,6 +30,18 @@ final class BoardViewTests: XCTestCase {
         XCTAssertNotNil(colorMap.color(for: 99))
     }
 
+    func testRegionColorMapUsesHighContrastPaletteWhenEnabled() {
+        let puzzle = TestPuzzleFactory.miniPuzzle()
+        let defaultMap = RegionColorMap(regions: puzzle.regions, highContrast: false)
+        let contrastMap = RegionColorMap(regions: puzzle.regions, highContrast: true)
+
+        XCTAssertNotEqual(defaultMap.color(for: 0), contrastMap.color(for: 0))
+        XCTAssertEqual(
+            contrastMap.color(for: 0),
+            AppColors.regionColor(at: 0, highContrast: true)
+        )
+    }
+
     func testCellSizeMeetsTouchTargetOnIPhoneSE() {
         let seWidth: CGFloat = 375
         let size = 8
@@ -49,6 +61,26 @@ final class BoardViewTests: XCTestCase {
         XCTAssertLessThanOrEqual(boardWidth, seWidth)
     }
 
+    /// Logical width for iPhone 16 Pro Max (portrait points).
+    func testCellSizeMeetsTouchTargetOnProMax() {
+        let proMaxWidth: CGFloat = 430
+        let size = 8
+        let padding = BoardLayout.boardPadding(availableWidth: proMaxWidth, size: size)
+        let cellSize = BoardLayout.cellSize(availableWidth: proMaxWidth, padding: padding, size: size)
+
+        XCTAssertGreaterThanOrEqual(cellSize, TouchTarget.minimum)
+    }
+
+    func testBoardFitsWithinProMaxWidth() {
+        let proMaxWidth: CGFloat = 430
+        let size = 8
+        let padding = BoardLayout.boardPadding(availableWidth: proMaxWidth, size: size)
+        let cellSize = BoardLayout.cellSize(availableWidth: proMaxWidth, padding: padding, size: size)
+        let boardWidth = CGFloat(size) * cellSize + CGFloat(size - 1) * AppSpacing.cellGap + padding * 2
+
+        XCTAssertLessThanOrEqual(boardWidth, proMaxWidth)
+    }
+
     func testViolationDetectionIncludesAllPositions() {
         let positionA = Position(row: 0, col: 1)
         let positionB = Position(row: 0, col: 3)
@@ -61,6 +93,61 @@ final class BoardViewTests: XCTestCase {
         XCTAssertTrue(violates(result, at: positionA))
         XCTAssertTrue(violates(result, at: positionB))
         XCTAssertFalse(violates(result, at: Position(row: 2, col: 2)))
+    }
+
+    func testBoardLayoutPositionMapsPointToCell() {
+        let size = 4
+        let padding: CGFloat = 8
+        let cellSize: CGFloat = 44
+        let gap = AppSpacing.cellGap
+        let boardWidth = padding * 2 + CGFloat(size) * cellSize + CGFloat(size - 1) * gap
+
+        let topLeft = BoardLayout.position(
+            at: CGPoint(x: padding + cellSize / 2, y: padding + cellSize / 2),
+            boardWidth: boardWidth,
+            padding: padding,
+            cellSize: cellSize,
+            size: size
+        )
+        XCTAssertEqual(topLeft, Position(row: 0, col: 0))
+
+        let second = BoardLayout.position(
+            at: CGPoint(
+                x: padding + cellSize + gap + cellSize / 2,
+                y: padding + cellSize / 2
+            ),
+            boardWidth: boardWidth,
+            padding: padding,
+            cellSize: cellSize,
+            size: size
+        )
+        XCTAssertEqual(second, Position(row: 0, col: 1))
+    }
+
+    func testBoardLayoutPositionReturnsNilInGapsAndOutside() {
+        let size = 4
+        let padding: CGFloat = 8
+        let cellSize: CGFloat = 44
+        let gap = AppSpacing.cellGap
+        let boardWidth = padding * 2 + CGFloat(size) * cellSize + CGFloat(size - 1) * gap
+
+        let inGap = BoardLayout.position(
+            at: CGPoint(x: padding + cellSize + gap / 2, y: padding + cellSize / 2),
+            boardWidth: boardWidth,
+            padding: padding,
+            cellSize: cellSize,
+            size: size
+        )
+        XCTAssertNil(inGap)
+
+        let outside = BoardLayout.position(
+            at: CGPoint(x: 1, y: 1),
+            boardWidth: boardWidth,
+            padding: padding,
+            cellSize: cellSize,
+            size: size
+        )
+        XCTAssertNil(outside)
     }
 
     private func violates(_ result: ValidationResult, at position: Position) -> Bool {

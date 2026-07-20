@@ -4,6 +4,8 @@ import SwiftUI
 ///
 /// Presentation-only — state and callbacks are supplied by `GameViewModel` (P3.13).
 struct GameToolbar: View {
+    @Environment(\.highContrast) private var highContrast
+
     let canUndo: Bool
     let canRedo: Bool
     let canReset: Bool
@@ -24,6 +26,7 @@ struct GameToolbar: View {
                 hint: GameToolbarAccessibility.undoHint,
                 accessibilityIdentifier: "toolbarUndo",
                 isEnabled: isEnabled && canUndo,
+                highContrast: highContrast,
                 action: onUndo
             )
 
@@ -33,6 +36,7 @@ struct GameToolbar: View {
                 hint: GameToolbarAccessibility.redoHint,
                 accessibilityIdentifier: "toolbarRedo",
                 isEnabled: isEnabled && canRedo,
+                highContrast: highContrast,
                 action: onRedo
             )
 
@@ -42,6 +46,7 @@ struct GameToolbar: View {
                 hint: GameToolbarAccessibility.resetHint,
                 accessibilityIdentifier: "toolbarReset",
                 isEnabled: isEnabled && canReset,
+                highContrast: highContrast,
                 action: onReset
             )
 
@@ -51,10 +56,13 @@ struct GameToolbar: View {
                 hint: GameToolbarAccessibility.hintHint(remaining: hintsRemaining),
                 accessibilityIdentifier: "toolbarHint",
                 isEnabled: isEnabled && canHint,
+                highContrast: highContrast,
                 action: onHint
             )
         }
         .frame(maxWidth: .infinity)
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("gameToolbar")
     }
 }
 
@@ -66,13 +74,18 @@ private struct ToolbarIconButton: View {
     let hint: String
     let accessibilityIdentifier: String
     let isEnabled: Bool
+    let highContrast: Bool
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
             Image(systemName: symbol)
-                .font(AppTypography.toolbar)
-                .foregroundStyle(isEnabled ? AppColors.accent : AppColors.secondary)
+                .font(AppTypography.toolbar(highContrast: highContrast))
+                .foregroundStyle(
+                    isEnabled
+                        ? AppColors.resolvedAccent(highContrast: highContrast)
+                        : AppColors.resolvedSecondary(highContrast: highContrast)
+                )
                 .frame(width: TouchTarget.minimum, height: TouchTarget.minimum)
                 .contentShape(Rectangle())
         }

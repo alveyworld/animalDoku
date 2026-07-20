@@ -1,10 +1,10 @@
 import XCTest
 @testable import AnimalDoku
 
-/// GameSession engine tests (P3.1–P3.6).
+/// GameSession engine tests (P3.1–P3.6, P6.5 unified tap).
 ///
 /// Formal Rules coverage map:
-/// - Interaction Model table (Place/Mark × cell state) — P3.2
+/// - Interaction Model table (single/double tap × cell state) — P3.2 / P6.5
 /// - AC-H.1–H.3 (hint limit, blocked rejection, first hint) — P3.6
 /// - Undo / redo / reset player actions — P3.3–P3.5
 /// - Rule 5 completion via scripted solve — AC-4
@@ -31,7 +31,6 @@ final class GameSessionTests: XCTestCase {
         XCTAssertEqual(session.elapsedSeconds, 0)
         XCTAssertTrue(session.undoStack.isEmpty)
         XCTAssertTrue(session.redoStack.isEmpty)
-        XCTAssertEqual(session.inputMode, .place)
         XCTAssertFalse(session.completed)
     }
 
@@ -43,8 +42,8 @@ final class GameSessionTests: XCTestCase {
         XCTAssertFalse(session.validationResult.isComplete)
         XCTAssertTrue(session.validationResult.violations.isEmpty)
 
-        session.tap(at: Position(row: 0, col: 0))
-        session.tap(at: Position(row: 0, col: 1))
+        session.placeOrRemove(at: Position(row: 0, col: 0))
+        session.placeOrRemove(at: Position(row: 0, col: 1))
 
         XCTAssertFalse(session.validationResult.isValid)
         XCTAssertFalse(session.validationResult.isComplete)
@@ -55,72 +54,69 @@ final class GameSessionTests: XCTestCase {
         let puzzle = TestPuzzleFactory.emptyGrid8x8()
         let session = GameSession(puzzle: puzzle)
 
-        session.tap(at: Position(row: 0, col: 0))
+        session.placeOrRemove(at: Position(row: 0, col: 0))
 
         XCTAssertEqual(session.puzzle, puzzle)
         XCTAssertTrue(session.puzzle.solution.isEmpty)
     }
 
-    // MARK: - P3.2 Place / Remove / Block
+    // MARK: - P3.2 / P6.5 Place / Remove / Mark
 
-    func testPlaceModeTapEmptyPlacesAnimal() {
+    func testPlaceOrRemoveOnEmptyPlacesAnimal() {
         let session = GameSession(puzzle: TestPuzzleFactory.emptyGrid8x8())
         let position = Position(row: 0, col: 0)
 
-        session.tap(at: position)
+        session.placeOrRemove(at: position)
 
         XCTAssertEqual(session.cell(at: position).state, .animal)
         XCTAssertEqual(session.undoStack.count, 1)
         XCTAssertEqual(session.undoStack.last, .place(at: position, previous: .empty))
     }
 
-    func testPlaceModeTapAnimalRemovesAnimal() {
+    func testPlaceOrRemoveOnAnimalRemovesAnimal() {
         let session = GameSession(puzzle: TestPuzzleFactory.emptyGrid8x8())
         let position = Position(row: 0, col: 0)
 
-        session.tap(at: position)
-        session.tap(at: position)
+        session.placeOrRemove(at: position)
+        session.placeOrRemove(at: position)
 
         XCTAssertEqual(session.cell(at: position).state, .empty)
         XCTAssertEqual(session.undoStack.count, 2)
         XCTAssertEqual(session.undoStack.last, .remove(at: position, previous: .animal))
     }
 
-    func testPlaceModeTapBlockedHasNoEffect() {
+    func testPlaceOrRemoveOnBlockedPlacesAnimal() {
         let session = GameSession(puzzle: TestPuzzleFactory.emptyGrid8x8())
         let position = Position(row: 0, col: 0)
 
-        session.inputMode = .mark
-        session.tap(at: position)
-        session.inputMode = .place
-        session.tap(at: position)
+        session.toggleMark(at: position)
+        session.placeOrRemove(at: position)
 
-        XCTAssertEqual(session.cell(at: position).state, .blocked)
-        XCTAssertEqual(session.undoStack.count, 1)
+        XCTAssertEqual(session.cell(at: position).state, .animal)
+        XCTAssertEqual(session.undoStack.count, 2)
+        XCTAssertEqual(session.undoStack.last, .place(at: position, previous: .blocked))
     }
 
-    func testMarkModeTogglesBlockedMark() {
+    func testToggleMarkTogglesBlockedMark() {
         let session = GameSession(puzzle: TestPuzzleFactory.emptyGrid8x8())
         let position = Position(row: 1, col: 1)
 
-        session.inputMode = .mark
-        session.tap(at: position)
+        session.toggleMark(at: position)
 
         XCTAssertEqual(session.cell(at: position).state, .blocked)
 
-        session.tap(at: position)
+        session.toggleMark(at: position)
 
         XCTAssertEqual(session.cell(at: position).state, .empty)
         XCTAssertEqual(session.undoStack.count, 2)
     }
 
-    func testMarkModeTapAnimalHasNoEffect() {
+    func testToggleMarkOnAnimalHasNoEffect() {
         let session = GameSession(puzzle: TestPuzzleFactory.emptyGrid8x8())
         let position = Position(row: 2, col: 2)
 
-        session.tap(at: position)
-        session.inputMode = .mark
-        session.tap(at: position)
+        session.placeOrRemove(at: position)
+        session.toggleMark(at: position)
 
         XCTAssertEqual(session.cell(at: position).state, .animal)
         XCTAssertEqual(session.undoStack.count, 1)
@@ -129,8 +125,8 @@ final class GameSessionTests: XCTestCase {
     func testConflictingPlacementsSurfaceRowViolation() {
         let session = GameSession(puzzle: TestPuzzleFactory.emptyGrid8x8())
 
-        session.tap(at: Position(row: 0, col: 0))
-        session.tap(at: Position(row: 0, col: 1))
+        session.placeOrRemove(at: Position(row: 0, col: 0))
+        session.placeOrRemove(at: Position(row: 0, col: 1))
 
         XCTAssertFalse(session.validationResult.isValid)
         XCTAssertEqual(session.validationResult.violations.first?.rule, .row)
@@ -145,13 +141,14 @@ final class GameSessionTests: XCTestCase {
         let session = GameSession(puzzle: puzzle)
 
         for position in puzzle.solution {
-            session.tap(at: position)
+            session.placeOrRemove(at: position)
         }
 
         XCTAssertTrue(session.completed)
 
         let target = Position(row: 3, col: 3)
-        session.tap(at: target)
+        session.placeOrRemove(at: target)
+        session.toggleMark(at: target)
 
         XCTAssertEqual(session.cell(at: target).state, .empty)
         XCTAssertEqual(session.undoStack.count, 4)
@@ -162,11 +159,11 @@ final class GameSessionTests: XCTestCase {
         let first = Position(row: 0, col: 0)
         let second = Position(row: 1, col: 0)
 
-        session.tap(at: first)
+        session.placeOrRemove(at: first)
         session.undo()
         XCTAssertEqual(session.redoStack.count, 1)
 
-        session.tap(at: second)
+        session.placeOrRemove(at: second)
 
         XCTAssertTrue(session.redoStack.isEmpty)
         XCTAssertEqual(session.undoStack.count, 1)
@@ -179,7 +176,7 @@ final class GameSessionTests: XCTestCase {
         let session = GameSession(puzzle: TestPuzzleFactory.emptyGrid8x8())
         let position = Position(row: 0, col: 0)
 
-        session.tap(at: position)
+        session.placeOrRemove(at: position)
         session.undo()
 
         XCTAssertEqual(session.cell(at: position).state, .empty)
@@ -203,10 +200,9 @@ final class GameSessionTests: XCTestCase {
         let session = GameSession(puzzle: TestPuzzleFactory.emptyGrid8x8())
         let initialCells = session.cells
 
-        session.tap(at: Position(row: 0, col: 0))
-        session.inputMode = .mark
-        session.tap(at: Position(row: 1, col: 1))
-        session.tap(at: Position(row: 2, col: 2))
+        session.placeOrRemove(at: Position(row: 0, col: 0))
+        session.toggleMark(at: Position(row: 1, col: 1))
+        session.toggleMark(at: Position(row: 2, col: 2))
 
         session.undo()
         session.undo()
@@ -220,8 +216,8 @@ final class GameSessionTests: XCTestCase {
         let session = GameSession(puzzle: TestPuzzleFactory.emptyGrid8x8())
         let position = Position(row: 3, col: 3)
 
-        session.tap(at: position)
-        session.tap(at: position)
+        session.placeOrRemove(at: position)
+        session.placeOrRemove(at: position)
         session.undo()
 
         XCTAssertEqual(session.cell(at: position).state, .animal)
@@ -232,14 +228,13 @@ final class GameSessionTests: XCTestCase {
         let session = GameSession(puzzle: TestPuzzleFactory.emptyGrid8x8())
         let position = Position(row: 4, col: 4)
 
-        session.inputMode = .mark
-        session.tap(at: position)
+        session.toggleMark(at: position)
         session.undo()
 
         XCTAssertEqual(session.cell(at: position).state, .empty)
 
-        session.tap(at: position)
-        session.tap(at: position)
+        session.toggleMark(at: position)
+        session.toggleMark(at: position)
         session.undo()
 
         XCTAssertEqual(session.cell(at: position).state, .blocked)
@@ -264,8 +259,8 @@ final class GameSessionTests: XCTestCase {
     func testUndoRevalidatesBoard() {
         let session = GameSession(puzzle: TestPuzzleFactory.emptyGrid8x8())
 
-        session.tap(at: Position(row: 0, col: 0))
-        session.tap(at: Position(row: 0, col: 1))
+        session.placeOrRemove(at: Position(row: 0, col: 0))
+        session.placeOrRemove(at: Position(row: 0, col: 1))
         XCTAssertFalse(session.validationResult.isValid)
 
         session.undo()
@@ -280,7 +275,7 @@ final class GameSessionTests: XCTestCase {
         let session = GameSession(puzzle: puzzle)
 
         for position in puzzle.solution {
-            session.tap(at: position)
+            session.placeOrRemove(at: position)
         }
 
         XCTAssertTrue(session.completed)
@@ -298,7 +293,7 @@ final class GameSessionTests: XCTestCase {
         let session = GameSession(puzzle: TestPuzzleFactory.emptyGrid8x8())
         let position = Position(row: 0, col: 0)
 
-        session.tap(at: position)
+        session.placeOrRemove(at: position)
         session.undo()
         session.redo()
 
@@ -334,7 +329,7 @@ final class GameSessionTests: XCTestCase {
         let session = GameSession(puzzle: TestPuzzleFactory.emptyGrid8x8())
         let position = Position(row: 2, col: 3)
 
-        session.tap(at: position)
+        session.placeOrRemove(at: position)
         let beforeUndo = session.cells
 
         session.undo()
@@ -348,8 +343,8 @@ final class GameSessionTests: XCTestCase {
         let first = Position(row: 0, col: 0)
         let second = Position(row: 1, col: 0)
 
-        session.tap(at: first)
-        session.tap(at: second)
+        session.placeOrRemove(at: first)
+        session.placeOrRemove(at: second)
         session.undo()
         session.undo()
 
@@ -372,7 +367,7 @@ final class GameSessionTests: XCTestCase {
         let session = GameSession(puzzle: puzzle)
 
         for position in puzzle.solution {
-            session.tap(at: position)
+            session.placeOrRemove(at: position)
         }
 
         session.undo()
@@ -387,9 +382,8 @@ final class GameSessionTests: XCTestCase {
     func testResetClearsBoardHistoryAndCounters() {
         let session = GameSession(puzzle: TestPuzzleFactory.emptyGrid8x8())
 
-        session.tap(at: Position(row: 0, col: 0))
-        session.inputMode = .mark
-        session.tap(at: Position(row: 1, col: 1))
+        session.placeOrRemove(at: Position(row: 0, col: 0))
+        session.toggleMark(at: Position(row: 1, col: 1))
         session.apply(.hint(at: Position(row: 2, col: 2), previous: .empty))
         session.undo()
 
@@ -409,7 +403,7 @@ final class GameSessionTests: XCTestCase {
         let session = GameSession(puzzle: puzzle)
 
         for position in puzzle.solution {
-            session.tap(at: position)
+            session.placeOrRemove(at: position)
         }
 
         XCTAssertTrue(session.completed)
@@ -419,27 +413,25 @@ final class GameSessionTests: XCTestCase {
         XCTAssertFalse(session.completed)
 
         let target = Position(row: 3, col: 3)
-        session.tap(at: target)
+        session.placeOrRemove(at: target)
 
         XCTAssertEqual(session.cell(at: target).state, .animal)
     }
 
-    func testResetPreservesPuzzleAndInputMode() {
+    func testResetPreservesPuzzle() {
         let puzzle = TestPuzzleFactory.emptyGrid8x8()
         let session = GameSession(puzzle: puzzle)
 
-        session.inputMode = .mark
-        session.tap(at: Position(row: 0, col: 0))
+        session.toggleMark(at: Position(row: 0, col: 0))
         session.reset()
 
         XCTAssertEqual(session.puzzle, puzzle)
-        XCTAssertEqual(session.inputMode, .mark)
     }
 
     func testResetIsIdempotent() {
         let session = GameSession(puzzle: TestPuzzleFactory.emptyGrid8x8())
 
-        session.tap(at: Position(row: 0, col: 0))
+        session.placeOrRemove(at: Position(row: 0, col: 0))
         session.reset()
         let afterFirstReset = session.cells
 
@@ -493,8 +485,7 @@ final class GameSessionTests: XCTestCase {
         let session = GameSession(puzzle: puzzle)
         let blocked = Position(row: 0, col: 1)
 
-        session.inputMode = .mark
-        session.tap(at: blocked)
+        session.toggleMark(at: blocked)
 
         XCTAssertFalse(session.requestHint(selected: blocked))
         XCTAssertEqual(session.hintsUsed, 0)
@@ -505,7 +496,7 @@ final class GameSessionTests: XCTestCase {
         let session = GameSession(puzzle: puzzle)
 
         for position in puzzle.solution {
-            session.tap(at: position)
+            session.placeOrRemove(at: position)
         }
 
         XCTAssertFalse(session.requestHint())
@@ -522,36 +513,38 @@ final class GameSessionTests: XCTestCase {
         XCTAssertEqual(session.cell(at: Position(row: 0, col: 1)).state, .empty)
     }
 
-    // MARK: - P3.7 Consolidated coverage
+    // MARK: - P3.7 / P6.5 Consolidated coverage
 
     func testInteractionMatrixTableDriven() {
         let position = Position(row: 2, col: 2)
 
+        enum TapKind {
+            case single
+            case double
+        }
+
         struct MatrixCase {
             let name: String
-            let mode: InputMode
+            let tap: TapKind
             let setup: (GameSession) -> Void
             let expectedState: CellState
             let recordsAction: Bool
         }
 
         let cases: [MatrixCase] = [
-            MatrixCase(name: "place-empty", mode: .place, setup: { _ in }, expectedState: .animal, recordsAction: true),
-            MatrixCase(name: "place-blocked", mode: .place, setup: { s in
-                s.inputMode = .mark
-                s.tap(at: position)
-                s.inputMode = .place
-            }, expectedState: .blocked, recordsAction: false),
-            MatrixCase(name: "place-animal", mode: .place, setup: { s in
-                s.tap(at: position)
+            MatrixCase(name: "double-empty", tap: .double, setup: { _ in }, expectedState: .animal, recordsAction: true),
+            MatrixCase(name: "double-blocked", tap: .double, setup: { s in
+                s.toggleMark(at: position)
+            }, expectedState: .animal, recordsAction: true),
+            MatrixCase(name: "double-animal", tap: .double, setup: { s in
+                s.placeOrRemove(at: position)
             }, expectedState: .empty, recordsAction: true),
-            MatrixCase(name: "mark-empty", mode: .mark, setup: { _ in }, expectedState: .blocked, recordsAction: true),
-            MatrixCase(name: "mark-blocked", mode: .mark, setup: { s in
-                s.inputMode = .mark
-                s.tap(at: position)
+            MatrixCase(name: "single-empty", tap: .single, setup: { _ in }, expectedState: .blocked, recordsAction: true),
+            MatrixCase(name: "single-blocked", tap: .single, setup: { s in
+                s.toggleMark(at: position)
             }, expectedState: .empty, recordsAction: true),
-            MatrixCase(name: "mark-animal", mode: .mark, setup: { s in
-                s.tap(at: position)
+            MatrixCase(name: "single-animal", tap: .single, setup: { s in
+                s.placeOrRemove(at: position)
             }, expectedState: .animal, recordsAction: false),
         ]
 
@@ -560,8 +553,12 @@ final class GameSessionTests: XCTestCase {
             testCase.setup(session)
             let stackBefore = session.undoStack.count
 
-            session.inputMode = testCase.mode
-            session.tap(at: position)
+            switch testCase.tap {
+            case .single:
+                session.toggleMark(at: position)
+            case .double:
+                session.placeOrRemove(at: position)
+            }
 
             GameSessionTestHelpers.assertCellState(session, at: position, equals: testCase.expectedState)
             if testCase.recordsAction {
@@ -602,5 +599,69 @@ final class GameSessionTests: XCTestCase {
 
         XCTAssertEqual(session.cells.count, 16)
         XCTAssertFalse(session.validationResult.isComplete)
+    }
+
+    // MARK: - P5.7 Mark drag stroke
+
+    func testPaintMarkBlocksEmptyAndClearsBlocked() {
+        let session = GameSession(puzzle: TestPuzzleFactory.miniPuzzle())
+        let position = Position(row: 0, col: 0)
+
+        XCTAssertEqual(session.paintMark(at: position, paintBlocked: true), .empty)
+        XCTAssertEqual(session.cell(at: position).state, .blocked)
+        XCTAssertTrue(session.undoStack.isEmpty)
+
+        XCTAssertEqual(session.paintMark(at: position, paintBlocked: false), .blocked)
+        XCTAssertEqual(session.cell(at: position).state, .empty)
+    }
+
+    func testPaintMarkNoOpsOnWrongStateOrAnimal() {
+        let session = GameSession(puzzle: TestPuzzleFactory.miniPuzzle())
+        let position = Position(row: 0, col: 0)
+
+        session.placeOrRemove(at: position)
+        XCTAssertNil(session.paintMark(at: position, paintBlocked: true))
+        XCTAssertNil(session.paintMark(at: position, paintBlocked: false))
+        XCTAssertEqual(session.cell(at: position).state, .animal)
+
+        XCTAssertNil(session.paintMark(at: Position(row: 0, col: 1), paintBlocked: false))
+    }
+
+    func testCommitMarkStrokeUndoRedoAsOneStep() {
+        let session = GameSession(puzzle: TestPuzzleFactory.miniPuzzle())
+        let a = Position(row: 0, col: 0)
+        let b = Position(row: 0, col: 1)
+        let c = Position(row: 0, col: 2)
+
+        var changes: [MarkStrokeChange] = []
+        for position in [a, b, c] {
+            if let previous = session.paintMark(at: position, paintBlocked: true) {
+                changes.append(MarkStrokeChange(at: position, previous: previous))
+            }
+        }
+        session.commitMarkStroke(changes)
+
+        XCTAssertEqual(session.undoStack.count, 1)
+        XCTAssertEqual(session.undoStack.last?.markStrokeChanges.count, 3)
+        XCTAssertEqual(session.cell(at: a).state, .blocked)
+        XCTAssertEqual(session.cell(at: b).state, .blocked)
+        XCTAssertEqual(session.cell(at: c).state, .blocked)
+
+        session.undo()
+        XCTAssertEqual(session.cell(at: a).state, .empty)
+        XCTAssertEqual(session.cell(at: b).state, .empty)
+        XCTAssertEqual(session.cell(at: c).state, .empty)
+        XCTAssertTrue(session.canRedo)
+
+        session.redo()
+        XCTAssertEqual(session.cell(at: a).state, .blocked)
+        XCTAssertEqual(session.cell(at: b).state, .blocked)
+        XCTAssertEqual(session.cell(at: c).state, .blocked)
+    }
+
+    func testCommitMarkStrokeIgnoresEmptyChanges() {
+        let session = GameSession(puzzle: TestPuzzleFactory.miniPuzzle())
+        session.commitMarkStroke([])
+        XCTAssertTrue(session.undoStack.isEmpty)
     }
 }
